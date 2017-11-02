@@ -140,8 +140,7 @@ else # else $TMUX is not empty, start test.
 
             sleep 2
 
-            tmux send-keys -t 2 "/root/AVL-tests/copy_ssh_key.sh $IP_DUT2" C-m
-            tmux send-keys -t 3 "/root/AVL-tests/copy_ssh_key.sh $IP_ARM" C-m            
+                       
             
             sleep 2
             
@@ -183,6 +182,9 @@ else # else $TMUX is not empty, start test.
             #SSH into DUT's
             tmux send-keys -t 2 "ssh -i ~/.ssh/netronome_key root@$IP_ARM" C-m
             tmux send-keys -t 3 "ssh -i ~/.ssh/netronome_key root@$IP_DUT2" C-m
+
+            tmux send-keys -t 2 "/root/AVL-tests/copy_ssh_key.sh $IP_DUT2" C-m
+            tmux send-keys -t 3 "/root/AVL-tests/copy_ssh_key.sh $IP_ARM" C-m 
 
             sleep 1
             
