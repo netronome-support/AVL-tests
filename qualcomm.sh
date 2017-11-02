@@ -500,6 +500,12 @@ else # else $TMUX is not empty, start test.
             DUT2_INT=$(ssh -i ~/.ssh/netronome_key $IP_DUT2 ip a | grep $INTERFACE_IP -B 3 | grep mtu | cut -d ' ' -f2 | cut -d ':' -f1)
             echo "Device 2 interface : $DUT2_INT"
 
+            baseaddr="$(echo $INTERFACE_IP | cut -d. -f1-3)"
+            lsv="$(echo $INTERFACE_IP | cut -d. -f4)"
+            new_value=$(( $lsv + 1))
+
+            INTERFACE_NFP=("$baseaddr.$new_value")
+
             tmux send-keys -t 3 "ifconfig $DUT2_INT mtu 9000" C-m
 
             #OLD Commands
@@ -753,8 +759,14 @@ else # else $TMUX is not empty, start test.
 
             echo "6) Performance test"
 
-           DUT2_INT=$(ssh -i ~/.ssh/netronome_key $IP_DUT2 ip a | grep $INTERFACE_IP -B 3 | grep mtu | cut -d ' ' -f2 | cut -d ':' -f1)
+            DUT2_INT=$(ssh -i ~/.ssh/netronome_key $IP_DUT2 ip a | grep $INTERFACE_IP -B 3 | grep mtu | cut -d ' ' -f2 | cut -d ':' -f1)
             echo "Device 2 interface : $DUT2_INT"
+
+            baseaddr="$(echo $INTERFACE_IP | cut -d. -f1-3)"
+            lsv="$(echo $INTERFACE_IP | cut -d. -f4)"
+            new_value=$(( $lsv + 1))
+
+            INTERFACE_NFP=("$baseaddr.$new_value")
 
             tmux send-keys -t 3 "ifconfig $DUT2_INT mtu 9000" C-m
 
