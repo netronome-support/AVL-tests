@@ -44,31 +44,34 @@ else
 
 fi
 
-
+echo "Current card: $CUR_CARD"
 # ethool
 speed=$(cat /root/AVL-tests/results/$CUR_CARD-ethtool.txt | grep Speed: | cut -d ':' -f2 | cut -d ' ' -f2)
 #echo $speed
 
-if [ "$CUR_CARD"=="Beryllium" ]; then
-    if [ "$speed" == "40000Mb/s" ]; then
+sleep 1
+
+if [[ $CUR_CARD == "Beryllium" ]]; then
+    if [[ $speed == "40000Mb/s" ]]; then
         ethtool="pass"
     else
         ethtool="fail"
     fi
-elif [ "$CUR_CARD"=="Lithium" ]; then
-    if [ "$speed" == "10000Mb/s" ]; then
+elif [[ $CUR_CARD == "Lithium" ]]; then
+
+    if [[ $speed == "10000Mb/s" ]]; then
         ethtool="pass"
     else
         ethtool="fail"
     fi
-elif [ "$CUR_CARD"=="Hydrogen" ]; then
-    if [ "$speed" == "40000Mb/s" ]; then
+elif [[ $CUR_CARD == "Hydrogen" ]]; then
+    if [[ $speed == "40000Mb/s" ]]; then
         ethtool="pass"
     else
         ethtool="fail"
     fi
-elif [ "$CUR_CARD"=="Carbon" ]; then
-    if [ "$speed" == "25000Mb/s" ]; then
+elif [[ $CUR_CARD == "Carbon" ]]; then
+    if [[ $speed == "25000Mb/s" ]]; then
         ethtool="pass"
     else
         ethtool="fail"
@@ -153,7 +156,7 @@ two4=$(cat /root/AVL-tests/results/$CUR_CARD-IPERF13_2 | grep SUM | sed '$!d' | 
 two_a=$(echo "($two1 + $two2 + $two3 + $two4)" | bc -l )
 
 
-if [ "$CUR_CARD"=="Beryllium" ]; then
+if [[ $CUR_CARD == "Beryllium" ]]; then
     if [[ $(echo $one_a'>'36 | bc -l) -eq 1 ]] && [[ $(echo $two_a'>'36 | bc -l) -eq 1 ]] ; then
         perf="pass"
         
@@ -161,19 +164,19 @@ if [ "$CUR_CARD"=="Beryllium" ]; then
         perf="fail"
         
     fi
-elif [ "$CUR_CARD"=="Lithium" ]; then
+elif [[ $CUR_CARD == "Lithium" ]]; then
     if [[ $(echo $one_a'>'9 | bc -l) -eq 1 ]] && [[ $(echo $two_a'>'9 | bc -l) -eq 1 ]] ; then
         perf="pass"
     else
         perf="fail"
     fi
-elif [ "$CUR_CARD"=="Hydrogen" ]; then
+elif [[ $CUR_CARD == "Hydrogen" ]]; then
     if [[ $(echo $one_a'>'36 | bc -l) -eq 1 ]] && [[ $(echo $two_a'>'36 | bc -l) -eq 1 ]] ; then
         perf="pass"
     else
         perf="fail"
     fi
-elif [ "$CUR_CARD"=="Carbon" ]; then
+elif [[ $CUR_CARD == "Carbon" ]]; then
     if [[ $(echo $one_a'>'22.5 | bc -l) -eq 1 ]] && [[ $(echo $two_a'>'22.5 | bc -l) -eq 1 ]] ; then
         perf="pass"
     else
