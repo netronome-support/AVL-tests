@@ -168,6 +168,10 @@ else # else $TMUX is not empty, start test.
 
             mkdir /root/AVL-tests/results
             mkdir /root/AVL-tests/results/logs
+            
+            if [ ! -f /root/AVL-tests/results/logs/results.txt ]; then
+                touch /root/AVL-tests/results/logs/results.txt
+            fi
 
             sleep 1
 
