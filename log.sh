@@ -8,22 +8,22 @@ echo $IP_DUT2
 
 #CHeck if tested
 
-if [ -f "/root/AVL-tests/results/Beryllium-IPERF10" ]; then
+if [ -f "/root/AVL-tests/results/Beryllium-IPERF10*" ]; then
     Beryllium="Tested"
 else 
     Beryllium="Untested"
 fi
-if [ -f "/root/AVL-tests/results/Hydrogen-IPERF10" ]; then
+if [ -f "/root/AVL-tests/results/Hydrogen-IPERF10*" ]; then
     Hydrogen="Tested"
 else 
     Hydrogen="Untested"
 fi
-if [ -f "/root/AVL-tests/results/Lithium-IPERF10" ]; then
+if [ -f "/root/AVL-tests/results/Lithium-IPERF10*" ]; then
     Lithium="Tested"
 else 
     Lithium="Untested"
 fi
-if [ -f "/root/AVL-tests/results/Carbon-IPERF10" ]; then
+if [ -f "/root/AVL-tests/results/Carbon-IPERF10*" ]; then
     Carbon="Tested"
 else 
     Carbon="Untested"
@@ -89,7 +89,7 @@ if [[ "$Beryllium" == "Tested" ]]; then
     echo "" >> /root/AVL-tests/results/logs/2x40_log.txt
     cat /root/AVL-tests/results/Beryllium-IPERF11_1 >> /root/AVL-tests/results/logs/2x40_log.txt
     echo "" >> /root/AVL-tests/results/logs/2x40_log.txt
-    cat /root/AVL-tests/results/Beryllium-IPERF14_1 >> /root/AVL-tests/results/logs/2x40_log.txt
+    cat /root/AVL-tests/results/Beryllium-IPERF12_1 >> /root/AVL-tests/results/logs/2x40_log.txt
     echo "" >> /root/AVL-tests/results/logs/2x40_log.txt
     cat /root/AVL-tests/results/Beryllium-IPERF13_1 >> /root/AVL-tests/results/logs/2x40_log.txt
     echo "" >> /root/AVL-tests/results/logs/2x40_log.txt
@@ -97,7 +97,7 @@ if [[ "$Beryllium" == "Tested" ]]; then
     echo "" >> /root/AVL-tests/results/logs/2x40_log.txt
     cat /root/AVL-tests/results/Beryllium-IPERF11_2 >> /root/AVL-tests/results/logs/2x40_log.txt
     echo "" >> /root/AVL-tests/results/logs/2x40_log.txt
-    cat /root/AVL-tests/results/Beryllium-IPERF14_2 >> /root/AVL-tests/results/logs/2x40_log.txt
+    cat /root/AVL-tests/results/Beryllium-IPERF12_2 >> /root/AVL-tests/results/logs/2x40_log.txt
     echo "" >> /root/AVL-tests/results/logs/2x40_log.txt
     cat /root/AVL-tests/results/Beryllium-IPERF13_2 >> /root/AVL-tests/results/logs/2x40_log.txt
 
@@ -134,7 +134,7 @@ if [[ "$Lithium" == "Tested" ]]; then
     echo "" >> /root/AVL-tests/results/logs/2x10_log.txt
     cat /root/AVL-tests/results/Lithium-IPERF11_1 >> /root/AVL-tests/results/logs/2x10_log.txt
     echo "" >> /root/AVL-tests/results/logs/2x10_log.txt
-    cat /root/AVL-tests/results/Lithium-IPERF14_1 >> /root/AVL-tests/results/logs/2x10_log.txt
+    cat /root/AVL-tests/results/Lithium-IPERF12_1 >> /root/AVL-tests/results/logs/2x10_log.txt
     echo "" >> /root/AVL-tests/results/logs/2x10_log.txt
     cat /root/AVL-tests/results/Lithium-IPERF13_1 >> /root/AVL-tests/results/logs/2x10_log.txt
     echo "" >> /root/AVL-tests/results/logs/2x10_log.txt
@@ -142,7 +142,7 @@ if [[ "$Lithium" == "Tested" ]]; then
     echo "" >> /root/AVL-tests/results/logs/2x10_log.txt
     cat /root/AVL-tests/results/Lithium-IPERF11_2 >> /root/AVL-tests/results/logs/2x10_log.txt
     echo "" >> /root/AVL-tests/results/logs/2x10_log.txt
-    cat /root/AVL-tests/results/Lithium-IPERF14_2 >> /root/AVL-tests/results/logs/2x10_log.txt
+    cat /root/AVL-tests/results/Lithium-IPERF12_2 >> /root/AVL-tests/results/logs/2x10_log.txt
     echo "" >> /root/AVL-tests/results/logs/2x10_log.txt
     cat /root/AVL-tests/results/Lithium-IPERF13_2 >> /root/AVL-tests/results/logs/2x10_log.txt
 
@@ -179,7 +179,7 @@ if [[ "$Hydrogen" == "Tested" ]]; then
     echo "" >> /root/AVL-tests/results/logs/1x40_log.txt
     cat /root/AVL-tests/results/Hydrogen-IPERF11_1 >> /root/AVL-tests/results/logs/1x40_log.txt
     echo "" >> /root/AVL-tests/results/logs/1x40_log.txt
-    cat /root/AVL-tests/results/Hydrogen-IPERF14_1 >> /root/AVL-tests/results/logs/1x40_log.txt
+    cat /root/AVL-tests/results/Hydrogen-IPERF12_1 >> /root/AVL-tests/results/logs/1x40_log.txt
     echo "" >> /root/AVL-tests/results/logs/1x40_log.txt
     cat /root/AVL-tests/results/Hydrogen-IPERF13_1 >> /root/AVL-tests/results/logs/1x40_log.txt
     echo "" >> /root/AVL-tests/results/logs/1x40_log.txt
@@ -187,7 +187,7 @@ if [[ "$Hydrogen" == "Tested" ]]; then
     echo "" >> /root/AVL-tests/results/logs/1x40_log.txt
     cat /root/AVL-tests/results/Hydrogen-IPERF11_2 >> /root/AVL-tests/results/logs/1x40_log.txt
     echo "" >> /root/AVL-tests/results/logs/1x40_log.txt
-    cat /root/AVL-tests/results/Hydrogen-IPERF14_2 >> /root/AVL-tests/results/logs/1x40_log.txt
+    cat /root/AVL-tests/results/Hydrogen-IPERF12_2 >> /root/AVL-tests/results/logs/1x40_log.txt
     echo "" >> /root/AVL-tests/results/logs/1x40_log.txt
     cat /root/AVL-tests/results/Hydrogen-IPERF13_2 >> /root/AVL-tests/results/logs/1x40_log.txt
 
@@ -224,7 +224,7 @@ if [[ "$Carbon" == "Tested" ]]; then
     echo "" >> /root/AVL-tests/results/logs/2x25_log.txt
     cat /root/AVL-tests/results/Carbon-IPERF11_1 >> /root/AVL-tests/results/logs/2x25_log.txt
     echo "" >> /root/AVL-tests/results/logs/2x25_log.txt
-    cat /root/AVL-tests/results/Carbon-IPERF14_1 >> /root/AVL-tests/results/logs/2x25_log.txt
+    cat /root/AVL-tests/results/Carbon-IPERF12_1 >> /root/AVL-tests/results/logs/2x25_log.txt
     echo "" >> /root/AVL-tests/results/logs/2x25_log.txt
     cat /root/AVL-tests/results/Carbon-IPERF13_1 >> /root/AVL-tests/results/logs/2x25_log.txt
     echo "" >> /root/AVL-tests/results/logs/2x25_log.txt
@@ -232,7 +232,7 @@ if [[ "$Carbon" == "Tested" ]]; then
     echo "" >> /root/AVL-tests/results/logs/2x25_log.txt
     cat /root/AVL-tests/results/Carbon-IPERF11_2 >> /root/AVL-tests/results/logs/2x25_log.txt
     echo "" >> /root/AVL-tests/results/logs/2x25_log.txt
-    cat /root/AVL-tests/results/Carbon-IPERF14_2 >> /root/AVL-tests/results/logs/2x25_log.txt
+    cat /root/AVL-tests/results/Carbon-IPERF12_2 >> /root/AVL-tests/results/logs/2x25_log.txt
     echo "" >> /root/AVL-tests/results/logs/2x25_log.txt
     cat /root/AVL-tests/results/Carbon-IPERF13_2 >> /root/AVL-tests/results/logs/2x25_log.txt
 
