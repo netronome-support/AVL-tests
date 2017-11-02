@@ -520,6 +520,7 @@ else # else $TMUX is not empty, start test.
             sleep 40
 
             tmux send-keys -t 3 "^C" C-m
+            tmux send-keys -t 2 "^C" C-m
             sleep 1
             tmux send-keys -t 2 "pkill iperf -9" C-m
             tmux send-keys -t 3 "pkill iperf -9" C-m
@@ -532,11 +533,12 @@ else # else $TMUX is not empty, start test.
 
             tmux send-keys -t 2 "iperf3 -s -p10 & iperf3 -s -p11 & iperf3 -s -p12 & iperf3 -s -p13 &" C-m
             sleep 1
-            tmux send-keys -t 2 "iperf3 -A 0 -c $INTERFACE_NFP -P 6 -t 30 -i 30 -p 10 > $CUR_CARD-IPERF10_2 & iperf3 -A 1 -c $INTERFACE_NFP -P 6 -t 30 -i 30 -p 11 > $CUR_CARD-IPERF11_2 & iperf3 -A 2 -c $INTERFACE_NFP -P 6 -t 30 -i 30 -p 12 > $CUR_CARD-IPERF12_2 & iperf3 -A 3 -c $INTERFACE_NFP -P 6 -t 30 -i 30 -p 13 > $CUR_CARD-IPERF13_2 &" C-m
+            tmux send-keys -t 3 "iperf3 -A 0 -c $INTERFACE_NFP -P 6 -t 30 -i 30 -p 10 > $CUR_CARD-IPERF10_2 & iperf3 -A 1 -c $INTERFACE_NFP -P 6 -t 30 -i 30 -p 11 > $CUR_CARD-IPERF11_2 & iperf3 -A 2 -c $INTERFACE_NFP -P 6 -t 30 -i 30 -p 12 > $CUR_CARD-IPERF12_2 & iperf3 -A 3 -c $INTERFACE_NFP -P 6 -t 30 -i 30 -p 13 > $CUR_CARD-IPERF13_2 &" C-m
 
             sleep 40
 
             tmux send-keys -t 2 "^C" C-m
+            tmux send-keys -t 3 "^C" C-m
             sleep 1
             tmux send-keys -t 2 "pkill iperf -9" C-m
             tmux send-keys -t 3 "pkill iperf -9" C-m
@@ -775,6 +777,7 @@ else # else $TMUX is not empty, start test.
             sleep 40
 
             tmux send-keys -t 3 "^C" C-m
+            tmux send-keys -t 2 "^C" C-m
             sleep 1
 
             tmux send-keys -t 2 "pkill iperf -9" C-m
@@ -788,11 +791,12 @@ else # else $TMUX is not empty, start test.
 
             tmux send-keys -t 2 "iperf3 -s -p10 & iperf3 -s -p11 & iperf3 -s -p12 & iperf3 -s -p13 &" C-m
             sleep 1
-            tmux send-keys -t 2 "iperf3 -A 0 -c $INTERFACE_NFP -P 6 -t 30 -i 30 -p 10 > $CUR_CARD-IPERF10_2 & iperf3 -A 1 -c $INTERFACE_NFP -P 6 -t 30 -i 30 -p 11 > $CUR_CARD-IPERF11_2 & iperf3 -A 2 -c $INTERFACE_NFP -P 6 -t 30 -i 30 -p 12 > $CUR_CARD-IPERF12_2 & iperf3 -A 3 -c $INTERFACE_NFP -P 6 -t 30 -i 30 -p 13 > $CUR_CARD-IPERF13_2 &" C-m
+            tmux send-keys -t 3 "iperf3 -A 0 -c $INTERFACE_NFP -P 6 -t 30 -i 30 -p 10 > $CUR_CARD-IPERF10_2 & iperf3 -A 1 -c $INTERFACE_NFP -P 6 -t 30 -i 30 -p 11 > $CUR_CARD-IPERF11_2 & iperf3 -A 2 -c $INTERFACE_NFP -P 6 -t 30 -i 30 -p 12 > $CUR_CARD-IPERF12_2 & iperf3 -A 3 -c $INTERFACE_NFP -P 6 -t 30 -i 30 -p 13 > $CUR_CARD-IPERF13_2 &" C-m
 
             sleep 40
 
             tmux send-keys -t 2 "^C" C-m
+            tmux send-keys -t 3 "^C" C-m
             sleep 1
 
             tmux send-keys -t 2 "pkill iperf -9" C-m
