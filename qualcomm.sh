@@ -136,12 +136,12 @@ else # else $TMUX is not empty, start test.
             read -p "Enter secondary device back-to-back connection interface IP: " INTERFACE_IP
 
             #Copy n new public key to DUT's
-            /root/Qualcomm/copy_ssh_key.sh $IP_ARM $IP_DUT2
+            /root/AVL-tests/copy_ssh_key.sh $IP_ARM $IP_DUT2
 
             sleep 2
 
-            tmux send-keys -t 2 "/root/Qualcomm/copy_ssh_key.sh $IP_DUT2" C-m
-            tmux send-keys -t 3 "/root/Qualcomm/copy_ssh_key.sh $IP_ARM" C-m            
+            tmux send-keys -t 2 "/root/AVL-tests/copy_ssh_key.sh $IP_DUT2" C-m
+            tmux send-keys -t 3 "/root/AVL-tests/copy_ssh_key.sh $IP_ARM" C-m            
             
             sleep 2
             
@@ -166,13 +166,13 @@ else # else $TMUX is not empty, start test.
             tmux send-keys -t 2 "mkdir -p logs" C-m
             tmux send-keys -t 3 "mkdir -p logs" C-m
 
-            mkdir /root/Qualcomm/results
-            mkdir /root/Qualcomm/results/logs
+            mkdir /root/AVL-tests/results
+            mkdir /root/AVL-tests/results/logs
 
             sleep 1
 
-            scp -i ~/.ssh/netronome_key -r /root/Qualcomm/ root@$IP_ARM:/root/
-            scp -i ~/.ssh/netronome_key -r /root/Qualcomm/ root@$IP_DUT2:/root/
+            scp -i ~/.ssh/netronome_key -r /root/AVL-tests/ root@$IP_ARM:/root/
+            scp -i ~/.ssh/netronome_key -r /root/AVL-tests/ root@$IP_DUT2:/root/
 
             sleep 1
 
@@ -254,11 +254,11 @@ else # else $TMUX is not empty, start test.
             scp -i ~/.ssh/netronome_key agilio-ovs-2.6.B-r5952-2017-10-05.tar.gz root@$IP_ARM:/root/
             scp -i ~/.ssh/netronome_key ns-agilio-core-nic*.* root@$IP_ARM:/root/
 
-            tmux send-keys -t 2 "/root/Qualcomm/package_install.sh" C-m
+            tmux send-keys -t 2 "/root/AVL-tests/package_install.sh" C-m
 
             wait_text 2 "DONE(package_install.sh)"
 
-            tmux send-keys -t 2 "/root/Qualcomm/build_dpdk.sh" C-m
+            tmux send-keys -t 2 "/root/AVL-tests/build_dpdk.sh" C-m
 
             wait_text 2 "DPDK build complete"
 
@@ -290,11 +290,11 @@ else # else $TMUX is not empty, start test.
             else
 
 
-                tmux send-keys -t 2 "dmesg | grep 'nfp .* Assembly' | sed -n 1p | cut -d ':' -f5 | cut -d '-' -f1 | cut -d ' ' -f2 > /root/Qualcomm/results/cur_card.txt" C-m
+                tmux send-keys -t 2 "dmesg | grep 'nfp .* Assembly' | sed -n 1p | cut -d ':' -f5 | cut -d '-' -f1 | cut -d ' ' -f2 > /root/AVL-tests/results/cur_card.txt" C-m
                 sleep 1
-                scp -i ~/.ssh/netronome_key root@$IP_ARM:/root/Qualcomm/results/cur_card.txt /root/Qualcomm/results 
+                scp -i ~/.ssh/netronome_key root@$IP_ARM:/root/AVL-tests/results/cur_card.txt /root/AVL-tests/results 
 
-                CARD=$(cat /root/Qualcomm/results/cur_card.txt)
+                CARD=$(cat /root/AVL-tests/results/cur_card.txt)
 
                 if [[ $CARD == *"97" ]]; then
                     echo "Current card: Beryllium - 2x40GbE"
@@ -339,10 +339,10 @@ else # else $TMUX is not empty, start test.
 
             tmux send-keys -t 2 "cd" C-m
 
-            tmux send-keys -t 2 "ethtool nfp_p0 > /root/Qualcomm/results/$CUR_CARD-ethtool.txt" C-m
+            tmux send-keys -t 2 "ethtool nfp_p0 > /root/AVL-tests/results/$CUR_CARD-ethtool.txt" C-m
             sleep 2
 
-            scp -i ~/.ssh/netronome_key root@$IP_ARM:/root/Qualcomm/results/$CUR_CARD-ethtool.txt /root/Qualcomm/results
+            scp -i ~/.ssh/netronome_key root@$IP_ARM:/root/AVL-tests/results/$CUR_CARD-ethtool.txt /root/AVL-tests/results
 
             sleep 1
 
@@ -360,9 +360,9 @@ else # else $TMUX is not empty, start test.
                 continue
             fi
             
-                tmux send-keys -t 2 "dmesg | grep 'Assembly\|BSP' > /root/Qualcomm/results/$CUR_CARD-isa.txt" C-m
+                tmux send-keys -t 2 "dmesg | grep 'Assembly\|BSP' > /root/AVL-tests/results/$CUR_CARD-isa.txt" C-m
                 sleep 2
-                scp -i ~/.ssh/netronome_key root@$IP_ARM:/root/Qualcomm/results/$CUR_CARD-isa.txt /root/Qualcomm/results
+                scp -i ~/.ssh/netronome_key root@$IP_ARM:/root/AVL-tests/results/$CUR_CARD-isa.txt /root/AVL-tests/results
                 sleep 1
                 echo "2_done"
             
@@ -398,7 +398,7 @@ else # else $TMUX is not empty, start test.
 
             tmux send-keys -t 2 "cd" C-m
 
-            tmux send-keys -t 2 "/root/Qualcomm/ping_test.sh $INTERFACE_NFP" C-m
+            tmux send-keys -t 2 "/root/AVL-tests/ping_test.sh $INTERFACE_NFP" C-m
             
             echo -e "${GREEN}* Setting up ping test${NC}"
             
@@ -409,23 +409,23 @@ else # else $TMUX is not empty, start test.
             
 
 
-            tmux send-keys -t 2 "ping $INTERFACE_IP -c 6 | tee /root/Qualcomm/results/$CUR_CARD-ping_test_1.txt" C-m
+            tmux send-keys -t 2 "ping $INTERFACE_IP -c 6 | tee /root/AVL-tests/results/$CUR_CARD-ping_test_1.txt" C-m
 
             wait_text 2 "ping statistics"
 
             sleep 1
 
-            scp -i ~/.ssh/netronome_key root@$IP_ARM:/root/Qualcomm/results/$CUR_CARD-ping_test_1.txt /root/Qualcomm/results
+            scp -i ~/.ssh/netronome_key root@$IP_ARM:/root/AVL-tests/results/$CUR_CARD-ping_test_1.txt /root/AVL-tests/results
 
             sleep 1
 
-            tmux send-keys -t 3 "ping $INTERFACE_NFP -c 6 | tee /root/Qualcomm/results/$CUR_CARD-ping_test_2.txt" C-m
+            tmux send-keys -t 3 "ping $INTERFACE_NFP -c 6 | tee /root/AVL-tests/results/$CUR_CARD-ping_test_2.txt" C-m
 
             wait_text 3 "ping statistics"
 
             sleep 1
 
-            scp -i ~/.ssh/netronome_key root@$IP_DUT2:/root/Qualcomm/results/$CUR_CARD-ping_test_2.txt /root/Qualcomm/results
+            scp -i ~/.ssh/netronome_key root@$IP_DUT2:/root/AVL-tests/results/$CUR_CARD-ping_test_2.txt /root/AVL-tests/results
 
 
             echo "Ping test complete"
@@ -446,11 +446,11 @@ else # else $TMUX is not empty, start test.
             fi            
             
             #ssh from 2nd DUT to nfp
-            tmux send-keys -t 3 "ssh -i ~/.ssh/netronome_key $INTERFACE_NFP 'dmesg | grep Assembly' > /root/Qualcomm/results/$CUR_CARD-ssh_test.txt" C-m
+            tmux send-keys -t 3 "ssh -i ~/.ssh/netronome_key $INTERFACE_NFP 'dmesg | grep Assembly' > /root/AVL-tests/results/$CUR_CARD-ssh_test.txt" C-m
 
             sleep 2
 
-            scp -i ~/.ssh/netronome_key root@$IP_DUT2:/root/Qualcomm/results/$CUR_CARD-ssh_test.txt /root/Qualcomm/results
+            scp -i ~/.ssh/netronome_key root@$IP_DUT2:/root/AVL-tests/results/$CUR_CARD-ssh_test.txt /root/AVL-tests/results
 
             sleep 1
 
@@ -467,15 +467,15 @@ else # else $TMUX is not empty, start test.
                 continue
             fi
             
-            tmux send-keys -t 2 "dmesg | grep Assembly > /root/Qualcomm/results/$CUR_CARD-dmesg_scp.txt" C-m
+            tmux send-keys -t 2 "dmesg | grep Assembly > /root/AVL-tests/results/$CUR_CARD-dmesg_scp.txt" C-m
 
             #scp from 2nd Dut to nfp
 
-            tmux send-keys -t 3 "scp -i ~/.ssh/netronome_key $INTERFACE_NFP:/root/Qualcomm/results/$CUR_CARD-dmesg_scp.txt /root/Qualcomm/results" C-m
+            tmux send-keys -t 3 "scp -i ~/.ssh/netronome_key $INTERFACE_NFP:/root/AVL-tests/results/$CUR_CARD-dmesg_scp.txt /root/AVL-tests/results" C-m
 
             sleep 2
 
-            scp -i ~/.ssh/netronome_key root@$IP_DUT2:/root/Qualcomm/results/$CUR_CARD-dmesg_scp.txt /root/Qualcomm/results/
+            scp -i ~/.ssh/netronome_key root@$IP_DUT2:/root/AVL-tests/results/$CUR_CARD-dmesg_scp.txt /root/AVL-tests/results/
 
             sleep 1
 
@@ -497,11 +497,11 @@ else # else $TMUX is not empty, start test.
             tmux send-keys -t 3 "ifconfig $DUT2_INT mtu 9000" C-m
 
             #OLD Commands
-            #tmux send-keys -t 2 "iperf -c $INTERFACE_IP -w 2m -l 64k -i 10 -t 30 -P 4 -m | tee /root/Qualcomm/results/$CUR_CARD-iperf_test_1.txt" C-m
+            #tmux send-keys -t 2 "iperf -c $INTERFACE_IP -w 2m -l 64k -i 10 -t 30 -P 4 -m | tee /root/AVL-tests/results/$CUR_CARD-iperf_test_1.txt" C-m
             #tmux send-keys -t 3 "iperf -s" C-m
 
-            tmux send-keys -t 2 "cd /root/Qualcomm/results" C-m
-            tmux send-keys -t 3 "cd /root/Qualcomm/results" C-m
+            tmux send-keys -t 2 "cd /root/AVL-tests/results" C-m
+            tmux send-keys -t 3 "cd /root/AVL-tests/results" C-m
 
             tmux send-keys -t 3 "iperf3 -s -p10 & iperf3 -s -p11 & iperf3 -s -p12 & iperf3 -s -p13 &" C-m
             sleep 1
@@ -512,7 +512,7 @@ else # else $TMUX is not empty, start test.
             tmux send-keys -t 3 "^C" C-m
             sleep 1
 
-            scp -i ~/.ssh/netronome_key root@$IP_ARM:/root/Qualcomm/results/$CUR_CARD-IPERF* /root/Qualcomm/results
+            scp -i ~/.ssh/netronome_key root@$IP_ARM:/root/AVL-tests/results/$CUR_CARD-IPERF* /root/AVL-tests/results
 
             sleep 5
 
@@ -526,7 +526,7 @@ else # else $TMUX is not empty, start test.
             tmux send-keys -t 2 "^C" C-m
             sleep 1
 
-            scp -i ~/.ssh/netronome_key root@$IP_DUT2:/root/Qualcomm/results/$CUR_CARD-IPERF* /root/Qualcomm/results
+            scp -i ~/.ssh/netronome_key root@$IP_DUT2:/root/AVL-tests/results/$CUR_CARD-IPERF* /root/AVL-tests/results
 
             sleep 2
 
@@ -561,11 +561,11 @@ else # else $TMUX is not empty, start test.
                 echo "Please install CoreNIC package first"
                 sleep 3
             else
-                tmux send-keys -t 2 "dmesg | grep 'nfp .* Assembly' | sed -n 1p | cut -d ':' -f5 | cut -d '-' -f1 | cut -d ' ' -f2 > /root/Qualcomm/results/cur_card.txt" C-m
+                tmux send-keys -t 2 "dmesg | grep 'nfp .* Assembly' | sed -n 1p | cut -d ':' -f5 | cut -d '-' -f1 | cut -d ' ' -f2 > /root/AVL-tests/results/cur_card.txt" C-m
                 sleep 1
-                scp -i ~/.ssh/netronome_key root@$IP_ARM:/root/Qualcomm/results/cur_card.txt /root/Qualcomm/results 
+                scp -i ~/.ssh/netronome_key root@$IP_ARM:/root/AVL-tests/results/cur_card.txt /root/AVL-tests/results 
 
-                CARD=$(cat /root/Qualcomm/results/cur_card.txt)
+                CARD=$(cat /root/AVL-tests/results/cur_card.txt)
 
                 if [[ $CARD == *"97" ]]; then
                     echo "Current card: Beryllium - 2x40GbE"
@@ -605,9 +605,9 @@ else # else $TMUX is not empty, start test.
 
             tmux send-keys -t 2 "cd" C-m
 
-            tmux send-keys -t 2 "ethtool nfp_p0 > /root/Qualcomm/results/$CUR_CARD-ethtool.txt" C-m
+            tmux send-keys -t 2 "ethtool nfp_p0 > /root/AVL-tests/results/$CUR_CARD-ethtool.txt" C-m
             sleep 2
-            scp -i ~/.ssh/netronome_key root@$IP_ARM:/root/Qualcomm/results/$CUR_CARD-ethtool.txt /root/Qualcomm/results
+            scp -i ~/.ssh/netronome_key root@$IP_ARM:/root/AVL-tests/results/$CUR_CARD-ethtool.txt /root/AVL-tests/results
             sleep 1
             
             echo "1_done"
@@ -624,9 +624,9 @@ else # else $TMUX is not empty, start test.
                 continue
             fi
             
-                tmux send-keys -t 2 "dmesg | grep 'Assembly\|BSP' > /root/Qualcomm/results/$CUR_CARD-isa.txt" C-m
+                tmux send-keys -t 2 "dmesg | grep 'Assembly\|BSP' > /root/AVL-tests/results/$CUR_CARD-isa.txt" C-m
                 sleep 2
-                scp -i ~/.ssh/netronome_key root@$IP_ARM:/root/Qualcomm/results/$CUR_CARD-isa.txt /root/Qualcomm/results
+                scp -i ~/.ssh/netronome_key root@$IP_ARM:/root/AVL-tests/results/$CUR_CARD-isa.txt /root/AVL-tests/results
                 sleep 1
                 echo "2_done"
 
@@ -653,7 +653,7 @@ else # else $TMUX is not empty, start test.
 
             tmux send-keys -t 2 "cd" C-m
 
-            tmux send-keys -t 2 "/root/Qualcomm/ping_test.sh $INTERFACE_NFP" C-m
+            tmux send-keys -t 2 "/root/AVL-tests/ping_test.sh $INTERFACE_NFP" C-m
             
             echo -e "${GREEN}* Setting up ping test${NC}"
             
@@ -661,23 +661,23 @@ else # else $TMUX is not empty, start test.
 
             echo -e "${GREEN}* Running test case 1 - Simple ping${NC}"
 
-            tmux send-keys -t 2 "ping $INTERFACE_IP -c 6 | tee /root/Qualcomm/results/$CUR_CARD-ping_test_1.txt" C-m
+            tmux send-keys -t 2 "ping $INTERFACE_IP -c 6 | tee /root/AVL-tests/results/$CUR_CARD-ping_test_1.txt" C-m
 
             wait_text 2 "ping statistics"
 
             sleep 1
 
-            scp -i ~/.ssh/netronome_key root@$IP_ARM://root/Qualcomm/results/$CUR_CARD-ping_test_1.txt /root/Qualcomm/results
+            scp -i ~/.ssh/netronome_key root@$IP_ARM:/root/AVL-tests/results/$CUR_CARD-ping_test_1.txt /root/AVL-tests/results
 
             sleep 1
 
-            tmux send-keys -t 3 "ping $INTERFACE_NFP -c 6 | tee /root/Qualcomm/results/$CUR_CARD-ping_test_2.txt" C-m
+            tmux send-keys -t 3 "ping $INTERFACE_NFP -c 6 | tee /root/AVL-tests/results/$CUR_CARD-ping_test_2.txt" C-m
 
             wait_text 3 "ping statistics"
 
             sleep 1
 
-            scp -i ~/.ssh/netronome_key root@$IP_DUT2://root/Qualcomm/results/$CUR_CARD-ping_test_2.txt /root/Qualcomm/results
+            scp -i ~/.ssh/netronome_key root@$IP_DUT2:/root/AVL-tests/results/$CUR_CARD-ping_test_2.txt /root/AVL-tests/results
 
 
             echo "Ping test complete"
@@ -697,11 +697,11 @@ else # else $TMUX is not empty, start test.
             sleep 1
 
             #ssh from 2nd DUT to nfp
-            tmux send-keys -t 3 "ssh -i ~/.ssh/netronome_key $INTERFACE_NFP 'dmesg | grep Assembly' > /root/Qualcomm/results/$CUR_CARD-ssh_test.txt" C-m
+            tmux send-keys -t 3 "ssh -i ~/.ssh/netronome_key $INTERFACE_NFP 'dmesg | grep Assembly' > /root/AVL-tests/results/$CUR_CARD-ssh_test.txt" C-m
 
             sleep 2
 
-            scp -i ~/.ssh/netronome_key root@$IP_DUT2:/root/Qualcomm/results/$CUR_CARD-ssh_test.txt /root/Qualcomm/results
+            scp -i ~/.ssh/netronome_key root@$IP_DUT2:/root/AVL-tests/results/$CUR_CARD-ssh_test.txt /root/AVL-tests/results
 
             sleep 1
 
@@ -713,15 +713,15 @@ else # else $TMUX is not empty, start test.
 
             echo "5) SCP test"
             
-            tmux send-keys -t 2 "dmesg | grep Assembly > /root/Qualcomm/results/$CUR_CARD-dmesg_scp.txt" C-m
+            tmux send-keys -t 2 "dmesg | grep Assembly > /root/AVL-tests/results/$CUR_CARD-dmesg_scp.txt" C-m
 
             #scp from 2nd Dut to nfp
 
-            tmux send-keys -t 3 "scp -i ~/.ssh/netronome_key $INTERFACE_NFP:/root/Qualcomm/results/$CUR_CARD-dmesg_scp.txt /root/Qualcomm/results/" C-m
+            tmux send-keys -t 3 "scp -i ~/.ssh/netronome_key $INTERFACE_NFP:/root/AVL-tests/results/$CUR_CARD-dmesg_scp.txt /root/AVL-tests/results/" C-m
 
             sleep 2
 
-            scp -i ~/.ssh/netronome_key root@$IP_DUT2:/root/Qualcomm/results/$CUR_CARD-dmesg_scp.txt /root/Qualcomm/results/
+            scp -i ~/.ssh/netronome_key root@$IP_DUT2:/root/AVL-tests/results/$CUR_CARD-dmesg_scp.txt /root/AVL-tests/results/
 
             sleep 1
 
@@ -741,11 +741,11 @@ else # else $TMUX is not empty, start test.
             tmux send-keys -t 3 "ifconfig $DUT2_INT mtu 9000" C-m
 
             #OLD Commands
-            #tmux send-keys -t 2 "iperf -c $INTERFACE_IP -w 2m -l 64k -i 10 -t 30 -P 4 -m | tee /root/Qualcomm/results/$CUR_CARD-iperf_test_1.txt" C-m
+            #tmux send-keys -t 2 "iperf -c $INTERFACE_IP -w 2m -l 64k -i 10 -t 30 -P 4 -m | tee /root/AVL-tests/results/$CUR_CARD-iperf_test_1.txt" C-m
             #tmux send-keys -t 3 "iperf -s" C-m
 
-            tmux send-keys -t 2 "cd /root/Qualcomm/results" C-m
-            tmux send-keys -t 3 "cd /root/Qualcomm/results" C-m
+            tmux send-keys -t 2 "cd /root/AVL-tests/results" C-m
+            tmux send-keys -t 3 "cd /root/AVL-tests/results" C-m
 
             tmux send-keys -t 3 "iperf3 -s -p10 & iperf3 -s -p11 & iperf3 -s -p12 & iperf3 -s -p13 &" C-m
             sleep 1
@@ -756,7 +756,7 @@ else # else $TMUX is not empty, start test.
             tmux send-keys -t 3 "^C" C-m
             sleep 1
 
-            scp -i ~/.ssh/netronome_key root@$IP_ARM:/root/Qualcomm/results/$CUR_CARD-IPERF* /root/Qualcomm/results
+            scp -i ~/.ssh/netronome_key root@$IP_ARM:/root/AVL-tests/results/$CUR_CARD-IPERF* /root/AVL-tests/results
 
             sleep 5
 
@@ -770,7 +770,7 @@ else # else $TMUX is not empty, start test.
             tmux send-keys -t 2 "^C" C-m
             sleep 1
 
-            scp -i ~/.ssh/netronome_key root@$IP_DUT2:/root/Qualcomm/results/$CUR_CARD-IPERF* /root/Qualcomm/results
+            scp -i ~/.ssh/netronome_key root@$IP_DUT2:/root/AVL-tests/results/$CUR_CARD-IPERF* /root/AVL-tests/results
 
             sleep 2
 
@@ -781,14 +781,14 @@ else # else $TMUX is not empty, start test.
             #-------------------------------------------------------------
             #   p) Show Results
             #-------------------------------------------------------------
-            /root/Qualcomm/pass_fail.sh
+            /root/AVL-tests/pass_fail.sh
 
             sleep 1
 
             clear
             echo ""
             echo ""
-            cat /root/Qualcomm/results/logs/results.txt | sed -r 's/[,]+/\t/g'
+            cat /root/AVL-tests/results/logs/results.txt | sed -r 's/[,]+/\t/g'
             echo ""
             echo ""
             echo "$CUR_CARD done"
@@ -796,7 +796,7 @@ else # else $TMUX is not empty, start test.
 
             sleep 10
 
-            sed -i '/None/d' /root/Qualcomm/results/logs/results.txt
+            sed -i '/None/d' /root/AVL-tests/results/logs/results.txt
 
             ;;
 
@@ -804,7 +804,7 @@ else # else $TMUX is not empty, start test.
             
             sleep 1
 
-            /root/Qualcomm/pass_fail.sh
+            /root/AVL-tests/pass_fail.sh
 
             sleep 1
 
@@ -813,11 +813,11 @@ else # else $TMUX is not empty, start test.
             clear
             echo ""
             echo ""
-            cat /root/Qualcomm/results/logs/results.txt | sed -r 's/[,]+/\t/g'
+            cat /root/AVL-tests/results/logs/results.txt | sed -r 's/[,]+/\t/g'
 
             sleep 10
 
-            sed -i '/None/d' /root/Qualcomm/results/logs/results.txt
+            sed -i '/None/d' /root/AVL-tests/results/logs/results.txt
 
 
             ;;
@@ -830,12 +830,12 @@ else # else $TMUX is not empty, start test.
                 continue
             fi
             
-            /root/Qualcomm/log.sh $IP_ARM $IP_DUT2
+            /root/AVL-tests/log.sh $IP_ARM $IP_DUT2
             sleep 2
 
             echo ""
             echo ""
-            echo "PLEASE FIND RESULTS IN /root/Qualcomm/results/logs/"
+            echo "PLEASE FIND RESULTS IN /root/AVL-tests/results/logs/"
             echo "Import them as decribed in the Results spreadsheet provided."
             echo ""
             sleep 5
