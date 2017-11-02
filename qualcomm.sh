@@ -512,7 +512,7 @@ else # else $TMUX is not empty, start test.
             tmux send-keys -t 3 "iperf3 -s -p10 & iperf3 -s -p11 & iperf3 -s -p12 & iperf3 -s -p13 &" C-m
             sleep 1
             
-            tmus send-keys -t 2 "iperf3 -A 0 -c $INTERFACE_IP -P 6 -t 30 -i 30 -p 10 > $CUR_CARD-IPERF10_1 & iperf3 -A 1 -c $INTERFACE_IP -P 6 -t 30 -i 30 -p 11 > $CUR_CARD-IPERF11_1 & iperf3 -A 2 -c $INTERFACE_IP -P 6 -t 30 -i 30 -p 12 > $CUR_CARD-IPERF12_1 & iperf3 -A 3 -c $INTERFACE_IP -P 6 -t 30 -i 30 -p 13 > $CUR_CARD-IPERF13_1 &" C-m
+            tmux send-keys -t 2 "iperf3 -A 0 -c $INTERFACE_IP -P 6 -t 30 -i 30 -p 10 > $CUR_CARD-IPERF10_1 & iperf3 -A 1 -c $INTERFACE_IP -P 6 -t 30 -i 30 -p 11 > $CUR_CARD-IPERF11_1 & iperf3 -A 2 -c $INTERFACE_IP -P 6 -t 30 -i 30 -p 12 > $CUR_CARD-IPERF12_1 & iperf3 -A 3 -c $INTERFACE_IP -P 6 -t 30 -i 30 -p 13 > $CUR_CARD-IPERF13_1 &" C-m
             sleep 40
 
             tmux send-keys -t 3 "^C" C-m
@@ -525,7 +525,7 @@ else # else $TMUX is not empty, start test.
 
             tmux send-keys -t 2 "iperf3 -s -p10 & iperf3 -s -p11 & iperf3 -s -p12 & iperf3 -s -p13 &" C-m
             sleep 1
-            tmus send-keys -t 2 "iperf3 -A 0 -c $INTERFACE_NFP -P 6 -t 30 -i 30 -p 10 > $CUR_CARD-IPERF10_2 & iperf3 -A 1 -c $INTERFACE_NFP -P 6 -t 30 -i 30 -p 11 > $CUR_CARD-IPERF11_2 & iperf3 -A 2 -c $INTERFACE_NFP -P 6 -t 30 -i 30 -p 12 > $CUR_CARD-IPERF12_2 & iperf3 -A 3 -c $INTERFACE_NFP -P 6 -t 30 -i 30 -p 13 > $CUR_CARD-IPERF13_2 &" C-m
+            tmux send-keys -t 2 "iperf3 -A 0 -c $INTERFACE_NFP -P 6 -t 30 -i 30 -p 10 > $CUR_CARD-IPERF10_2 & iperf3 -A 1 -c $INTERFACE_NFP -P 6 -t 30 -i 30 -p 11 > $CUR_CARD-IPERF11_2 & iperf3 -A 2 -c $INTERFACE_NFP -P 6 -t 30 -i 30 -p 12 > $CUR_CARD-IPERF12_2 & iperf3 -A 3 -c $INTERFACE_NFP -P 6 -t 30 -i 30 -p 13 > $CUR_CARD-IPERF13_2 &" C-m
 
             sleep 40
 
@@ -756,7 +756,7 @@ else # else $TMUX is not empty, start test.
             tmux send-keys -t 3 "iperf3 -s -p10 & iperf3 -s -p11 & iperf3 -s -p12 & iperf3 -s -p13 &" C-m
             sleep 1
             
-            tmus send-keys -t 2 "iperf3 -A 0 -c $INTERFACE_IP -P 6 -t 30 -i 30 -p 10 > $CUR_CARD-IPERF10_1 & iperf3 -A 1 -c $INTERFACE_IP -P 6 -t 30 -i 30 -p 11 > $CUR_CARD-IPERF11_1 & iperf3 -A 2 -c $INTERFACE_IP -P 6 -t 30 -i 30 -p 12 > $CUR_CARD-IPERF12_1 & iperf3 -A 3 -c $INTERFACE_IP -P 6 -t 30 -i 30 -p 13 > $CUR_CARD-IPERF13_1 &" C-m
+            tmux send-keys -t 2 "iperf3 -A 0 -c $INTERFACE_IP -P 6 -t 30 -i 30 -p 10 > $CUR_CARD-IPERF10_1 & iperf3 -A 1 -c $INTERFACE_IP -P 6 -t 30 -i 30 -p 11 > $CUR_CARD-IPERF11_1 & iperf3 -A 2 -c $INTERFACE_IP -P 6 -t 30 -i 30 -p 12 > $CUR_CARD-IPERF12_1 & iperf3 -A 3 -c $INTERFACE_IP -P 6 -t 30 -i 30 -p 13 > $CUR_CARD-IPERF13_1 &" C-m
             sleep 40
 
             tmux send-keys -t 3 "^C" C-m
@@ -769,7 +769,7 @@ else # else $TMUX is not empty, start test.
 
             tmux send-keys -t 2 "iperf3 -s -p10 & iperf3 -s -p11 & iperf3 -s -p12 & iperf3 -s -p13 &" C-m
             sleep 1
-            tmus send-keys -t 2 "iperf3 -A 0 -c $INTERFACE_NFP -P 6 -t 30 -i 30 -p 10 > $CUR_CARD-IPERF10_2 & iperf3 -A 1 -c $INTERFACE_NFP -P 6 -t 30 -i 30 -p 11 > $CUR_CARD-IPERF11_2 & iperf3 -A 2 -c $INTERFACE_NFP -P 6 -t 30 -i 30 -p 12 > $CUR_CARD-IPERF12_2 & iperf3 -A 3 -c $INTERFACE_NFP -P 6 -t 30 -i 30 -p 13 > $CUR_CARD-IPERF13_2 &" C-m
+            tmux send-keys -t 2 "iperf3 -A 0 -c $INTERFACE_NFP -P 6 -t 30 -i 30 -p 10 > $CUR_CARD-IPERF10_2 & iperf3 -A 1 -c $INTERFACE_NFP -P 6 -t 30 -i 30 -p 11 > $CUR_CARD-IPERF11_2 & iperf3 -A 2 -c $INTERFACE_NFP -P 6 -t 30 -i 30 -p 12 > $CUR_CARD-IPERF12_2 & iperf3 -A 3 -c $INTERFACE_NFP -P 6 -t 30 -i 30 -p 13 > $CUR_CARD-IPERF13_2 &" C-m
 
             sleep 40
 
