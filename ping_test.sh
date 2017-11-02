@@ -22,10 +22,10 @@ ETH=$(ls /sys/bus/pci/devices/$PCI/virtfn0/net)
 #Assign IP to netdev and up the interface
 ip a add $INTERFACE_NFP/24 dev $ETH
 ip link set dev $ETH up
-ip link set nfp_p0 up
+ip link set enP1s1np0 up
 
 #Change MTU's
-ifconfig nfp_p0 mtu 9000
+ifconfig enP1s1np0 mtu 9000
 ifconfig $ETH mtu 9000
 
 echo "DONE($(basename $0))"
