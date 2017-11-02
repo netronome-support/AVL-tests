@@ -762,7 +762,7 @@ else # else $TMUX is not empty, start test.
             tmux send-keys -t 3 "^C" C-m
             sleep 1
 
-            scp -i ~/.ssh/netronome_key root@$IP_ARM:/root/AVL-tests/results/$CUR_CARD-IPERF* /root/AVL-tests/results
+            scp -i ~/.ssh/netronome_key root@$IP_ARM:/root/AVL-tests/results/"$CUR_CARD-IPERF*" /root/AVL-tests/results
 
             sleep 5
 
@@ -776,7 +776,7 @@ else # else $TMUX is not empty, start test.
             tmux send-keys -t 2 "^C" C-m
             sleep 1
 
-            scp -i ~/.ssh/netronome_key root@$IP_DUT2:/root/AVL-tests/results/$CUR_CARD-IPERF* /root/AVL-tests/results
+            scp -i ~/.ssh/netronome_key root@$IP_DUT2:/root/AVL-tests/results/"$CUR_CARD-IPERF*" /root/AVL-tests/results
 
             sleep 2
 
