@@ -506,6 +506,10 @@ else # else $TMUX is not empty, start test.
             #tmux send-keys -t 2 "iperf -c $INTERFACE_IP -w 2m -l 64k -i 10 -t 30 -P 4 -m | tee /root/AVL-tests/results/$CUR_CARD-iperf_test_1.txt" C-m
             #tmux send-keys -t 3 "iperf -s" C-m
 
+            tmux send-keys -t 2 "pkill iperf -9" C-m
+            tmux send-keys -t 3 "pkill iperf -9" C-m
+            sleep 1
+
             tmux send-keys -t 2 "cd /root/AVL-tests/results" C-m
             tmux send-keys -t 3 "cd /root/AVL-tests/results" C-m
 
@@ -516,6 +520,9 @@ else # else $TMUX is not empty, start test.
             sleep 40
 
             tmux send-keys -t 3 "^C" C-m
+            sleep 1
+            tmux send-keys -t 2 "pkill iperf -9" C-m
+            tmux send-keys -t 3 "pkill iperf -9" C-m
             sleep 1
 
             scp -i ~/.ssh/netronome_key root@$IP_ARM:/root/AVL-tests/results/$CUR_CARD-IPERF* /root/AVL-tests/results
@@ -530,6 +537,9 @@ else # else $TMUX is not empty, start test.
             sleep 40
 
             tmux send-keys -t 2 "^C" C-m
+            sleep 1
+            tmux send-keys -t 2 "pkill iperf -9" C-m
+            tmux send-keys -t 3 "pkill iperf -9" C-m
             sleep 1
 
             scp -i ~/.ssh/netronome_key root@$IP_DUT2:/root/AVL-tests/results/$CUR_CARD-IPERF* /root/AVL-tests/results
