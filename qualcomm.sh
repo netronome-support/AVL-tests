@@ -179,8 +179,24 @@ else # else $TMUX is not empty, start test.
             #SSH into DUT's
             tmux send-keys -t 2 "ssh -i ~/.ssh/netronome_key root@$IP_ARM" C-m
             tmux send-keys -t 3 "ssh -i ~/.ssh/netronome_key root@$IP_DUT2" C-m
+
+            sleep 1
             
             DUT_CONNECT=1
+
+            sleep 1
+            
+            grep ID_LIKE /etc/os-release | grep -q debian
+            if [[ $? -eq 0 ]]; then
+                apt-get -y install iperf3
+            fi
+
+            grep ID_LIKE /etc/os-release | grep -q fedora
+            if [[ $? -eq 0 ]]; then
+                yum -y install iperf3
+            fi
+
+            sleep 1
 
             ;;
 
@@ -292,7 +308,7 @@ else # else $TMUX is not empty, start test.
                     echo "Current card: Lithium - 2x10GbE"
                     CARD_NAME="Lithium - 2x10GbE"
                     CUR_CARD="Lithium"
-                elif [[ $CARD == *"09" ]]; then
+                elif [[ $CARD == *"99" ]]; then
                     echo "Current card: Carbon - 2x25GbE"
                     CARD_NAME="Carbon - 2x25GbE"
                     CUR_CARD="Carbon"
@@ -373,6 +389,8 @@ else # else $TMUX is not empty, start test.
 
             DUT2_INT=$(ssh -i ~/.ssh/netronome_key $IP_DUT2 ip a | grep $INTERFACE_IP -B 3 | grep mtu | cut -d ' ' -f2 | cut -d ':' -f1)
             echo "Device 2 interface : $DUT2_INT" 
+
+            sleep 1
 
             tmux send-keys -t 3 "ifconfig $DUT2_INT mtu 9000" C-m
             tmux send-keys -t 3 "ip link set $DUT2_INT up" C-m
@@ -473,36 +491,42 @@ else # else $TMUX is not empty, start test.
                 continue
             fi
 
-
             DUT2_INT=$(ssh -i ~/.ssh/netronome_key $IP_DUT2 ip a | grep $INTERFACE_IP -B 3 | grep mtu | cut -d ' ' -f2 | cut -d ':' -f1)
             echo "Device 2 interface : $DUT2_INT"
 
             tmux send-keys -t 3 "ifconfig $DUT2_INT mtu 9000" C-m
 
-            tmux send-keys -t 3 "iperf -s" C-m
-            sleep 1
-            tmux send-keys -t 2 "iperf -c $INTERFACE_IP -w 2m -l 64k -i 10 -t 30 -P 4 -m | tee /root/Qualcomm/results/$CUR_CARD-iperf_test_1.txt" C-m
+            #OLD Commands
+            #tmux send-keys -t 2 "iperf -c $INTERFACE_IP -w 2m -l 64k -i 10 -t 30 -P 4 -m | tee /root/Qualcomm/results/$CUR_CARD-iperf_test_1.txt" C-m
+            #tmux send-keys -t 3 "iperf -s" C-m
 
+            tmux send-keys -t 2 "cd /root/Qualcomm/results" C-m
+            tmux send-keys -t 3 "cd /root/Qualcomm/results" C-m
+
+            tmux send-keys -t 3 "iperf3 -s -p10 & iperf3 -s -p11 & iperf3 -s -p12 & iperf3 -s -p13 &" C-m
+            sleep 1
+            
+            tmus send-keys -t 2 "iperf3 -A 0 -c $INTERFACE_IP -P 6 -t 30 -i 30 -p 10 > $CUR_CARD-IPERF10 & iperf3 -A 1 -c $INTERFACE_IP -P 6 -t 30 -i 30 -p 11 > $CUR_CARD-IPERF11 & iperf3 -A 2 -c $INTERFACE_IP -P 6 -t 30 -i 30 -p 12 > $CUR_CARD-IPERF12 & iperf3 -A 3 -c $INTERFACE_IP -P 6 -t 30 -i 30 -p 13 > $CUR_CARD-IPERF13 &" C-m
             sleep 40
 
             tmux send-keys -t 3 "^C" C-m
             sleep 1
 
-            scp -i ~/.ssh/netronome_key root@$IP_ARM:/root/Qualcomm/results/$CUR_CARD-iperf_test_1.txt /root/Qualcomm/results
+            scp -i ~/.ssh/netronome_key root@$IP_ARM:/root/Qualcomm/results/$CUR_CARD-IPERF* /root/Qualcomm/results
 
             sleep 5
 
 
-            tmux send-keys -t 2 "iperf -s" C-m
+            tmux send-keys -t 2 "iperf3 -s -p10 & iperf3 -s -p11 & iperf3 -s -p12 & iperf3 -s -p13 &" C-m
             sleep 1
-            tmux send-keys -t 3 "iperf -c $INTERFACE_NFP -w 2m -l 64k -i 10 -t 30 -P 4 -m | tee /root/Qualcomm/results/$CUR_CARD-iperf_test_2.txt" C-m
+            tmus send-keys -t 2 "iperf3 -A 0 -c $INTERFACE_NFP -P 6 -t 30 -i 30 -p 10 > $CUR_CARD-IPERF10 & iperf3 -A 1 -c $INTERFACE_NFP -P 6 -t 30 -i 30 -p 11 > $CUR_CARD-IPERF11 & iperf3 -A 2 -c $INTERFACE_NFP -P 6 -t 30 -i 30 -p 12 > $CUR_CARD-IPERF12 & iperf3 -A 3 -c $INTERFACE_NFP -P 6 -t 30 -i 30 -p 13 > $CUR_CARD-IPERF13 &" C-m
 
             sleep 40
 
             tmux send-keys -t 2 "^C" C-m
             sleep 1
 
-            scp -i ~/.ssh/netronome_key root@$IP_DUT2:/root/Qualcomm/results/$CUR_CARD-iperf_test_2.txt /root/Qualcomm/results
+            scp -i ~/.ssh/netronome_key root@$IP_DUT2:/root/Qualcomm/results/$CUR_CARD-IPERF* /root/Qualcomm/results
 
             sleep 2
 
@@ -555,7 +579,7 @@ else # else $TMUX is not empty, start test.
                     echo "Current card: Lithium - 2x10GbE"
                     CARD_NAME="Lithium - 2x10GbE"
                     CUR_CARD="Lithium"
-                elif [[ $CARD == *"09" ]]; then
+                elif [[ $CARD == *"99" ]]; then
                     echo "Current card: Carbon - 2x25GbE"
                     CARD_NAME="Carbon - 2x25GbE"
                     CUR_CARD="Carbon"
@@ -711,37 +735,44 @@ else # else $TMUX is not empty, start test.
 
             echo "6) Performance test"
 
-            DUT2_INT=$(ssh -i ~/.ssh/netronome_key $IP_DUT2 ip a | grep $INTERFACE_IP -B 3 | grep mtu | cut -d ' ' -f2 | cut -d ':' -f1)
+           DUT2_INT=$(ssh -i ~/.ssh/netronome_key $IP_DUT2 ip a | grep $INTERFACE_IP -B 3 | grep mtu | cut -d ' ' -f2 | cut -d ':' -f1)
             echo "Device 2 interface : $DUT2_INT"
 
             tmux send-keys -t 3 "ifconfig $DUT2_INT mtu 9000" C-m
 
-            tmux send-keys -t 3 "iperf -s" C-m
-            sleep 1
-            tmux send-keys -t 2 "iperf -c $INTERFACE_IP -w 2m -l 64k -i 10 -t 30 -P 4 -m | tee /root/Qualcomm/results/$CUR_CARD-iperf_test_1.txt" C-m
+            #OLD Commands
+            #tmux send-keys -t 2 "iperf -c $INTERFACE_IP -w 2m -l 64k -i 10 -t 30 -P 4 -m | tee /root/Qualcomm/results/$CUR_CARD-iperf_test_1.txt" C-m
+            #tmux send-keys -t 3 "iperf -s" C-m
 
+            tmux send-keys -t 2 "cd /root/Qualcomm/results" C-m
+            tmux send-keys -t 3 "cd /root/Qualcomm/results" C-m
+
+            tmux send-keys -t 3 "iperf3 -s -p10 & iperf3 -s -p11 & iperf3 -s -p12 & iperf3 -s -p13 &" C-m
+            sleep 1
+            
+            tmus send-keys -t 2 "iperf3 -A 0 -c $INTERFACE_IP -P 6 -t 30 -i 30 -p 10 > $CUR_CARD-IPERF10 & iperf3 -A 1 -c $INTERFACE_IP -P 6 -t 30 -i 30 -p 11 > $CUR_CARD-IPERF11 & iperf3 -A 2 -c $INTERFACE_IP -P 6 -t 30 -i 30 -p 12 > $CUR_CARD-IPERF12 & iperf3 -A 3 -c $INTERFACE_IP -P 6 -t 30 -i 30 -p 13 > $CUR_CARD-IPERF13 &" C-m
             sleep 40
 
             tmux send-keys -t 3 "^C" C-m
             sleep 1
 
-            scp -i ~/.ssh/netronome_key root@$IP_ARM:/root/Qualcomm/results/$CUR_CARD-iperf_test_1.txt /root/Qualcomm/results
+            scp -i ~/.ssh/netronome_key root@$IP_ARM:/root/Qualcomm/results/$CUR_CARD-IPERF* /root/Qualcomm/results
 
             sleep 5
 
 
-            tmux send-keys -t 2 "iperf -s" C-m
+            tmux send-keys -t 2 "iperf3 -s -p10 & iperf3 -s -p11 & iperf3 -s -p12 & iperf3 -s -p13 &" C-m
             sleep 1
-            tmux send-keys -t 3 "iperf -c $INTERFACE_NFP -w 2m -l 64k -i 10 -t 30 -P 4 -m | tee /root/Qualcomm/results/$CUR_CARD-iperf_test_2.txt" C-m
+            tmus send-keys -t 2 "iperf3 -A 0 -c $INTERFACE_NFP -P 6 -t 30 -i 30 -p 10 > $CUR_CARD-IPERF10 & iperf3 -A 1 -c $INTERFACE_NFP -P 6 -t 30 -i 30 -p 11 > $CUR_CARD-IPERF11 & iperf3 -A 2 -c $INTERFACE_NFP -P 6 -t 30 -i 30 -p 12 > $CUR_CARD-IPERF12 & iperf3 -A 3 -c $INTERFACE_NFP -P 6 -t 30 -i 30 -p 13 > $CUR_CARD-IPERF13 &" C-m
 
             sleep 40
 
             tmux send-keys -t 2 "^C" C-m
             sleep 1
 
-            scp -i ~/.ssh/netronome_key root@$IP_DUT2:/root/Qualcomm/results/$CUR_CARD-iperf_test_2.txt /root/Qualcomm/results
+            scp -i ~/.ssh/netronome_key root@$IP_DUT2:/root/Qualcomm/results/$CUR_CARD-IPERF* /root/Qualcomm/results
 
-            sleep 5
+            sleep 2
 
             echo "6_done"
 
