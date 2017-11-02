@@ -387,7 +387,7 @@ else # else $TMUX is not empty, start test.
             INTERFACE_NFP=("$baseaddr.$new_value")
 
 
-            DUT2_INT=$(ssh -i ~/.ssh/netronome_key $IP_DUT2 ip a | grep $INTERFACE_IP -B 3 | grep mtu | cut -d ' ' -f2 | cut -d ':' -f1)
+            DUT2_INT=$(ssh -i ~/.ssh/netronome_key $IP_DUT2 ip a | grep "$INTERFACE_IP" -B 3 | grep mtu | cut -d ' ' -f2 | cut -d ':' -f1)
             echo "Device 2 interface : $DUT2_INT" 
 
             sleep 1
@@ -398,7 +398,7 @@ else # else $TMUX is not empty, start test.
 
             tmux send-keys -t 2 "cd" C-m
 
-            tmux send-keys -t 2 "/root/Qualcomm/ping_test.sh -i $INTERFACE_NFP" C-m
+            tmux send-keys -t 2 "/root/Qualcomm/ping_test.sh $INTERFACE_NFP" C-m
             
             echo -e "${GREEN}* Setting up ping test${NC}"
             
@@ -506,7 +506,7 @@ else # else $TMUX is not empty, start test.
             tmux send-keys -t 3 "iperf3 -s -p10 & iperf3 -s -p11 & iperf3 -s -p12 & iperf3 -s -p13 &" C-m
             sleep 1
             
-            tmus send-keys -t 2 "iperf3 -A 0 -c $INTERFACE_IP -P 6 -t 30 -i 30 -p 10 > $CUR_CARD-IPERF10 & iperf3 -A 1 -c $INTERFACE_IP -P 6 -t 30 -i 30 -p 11 > $CUR_CARD-IPERF11 & iperf3 -A 2 -c $INTERFACE_IP -P 6 -t 30 -i 30 -p 12 > $CUR_CARD-IPERF12 & iperf3 -A 3 -c $INTERFACE_IP -P 6 -t 30 -i 30 -p 13 > $CUR_CARD-IPERF13 &" C-m
+            tmus send-keys -t 2 "iperf3 -A 0 -c $INTERFACE_IP -P 6 -t 30 -i 30 -p 10 > $CUR_CARD-IPERF10_1 & iperf3 -A 1 -c $INTERFACE_IP -P 6 -t 30 -i 30 -p 11 > $CUR_CARD-IPERF11_1 & iperf3 -A 2 -c $INTERFACE_IP -P 6 -t 30 -i 30 -p 12 > $CUR_CARD-IPERF12_1 & iperf3 -A 3 -c $INTERFACE_IP -P 6 -t 30 -i 30 -p 13 > $CUR_CARD-IPERF13_1 &" C-m
             sleep 40
 
             tmux send-keys -t 3 "^C" C-m
@@ -519,7 +519,7 @@ else # else $TMUX is not empty, start test.
 
             tmux send-keys -t 2 "iperf3 -s -p10 & iperf3 -s -p11 & iperf3 -s -p12 & iperf3 -s -p13 &" C-m
             sleep 1
-            tmus send-keys -t 2 "iperf3 -A 0 -c $INTERFACE_NFP -P 6 -t 30 -i 30 -p 10 > $CUR_CARD-IPERF10 & iperf3 -A 1 -c $INTERFACE_NFP -P 6 -t 30 -i 30 -p 11 > $CUR_CARD-IPERF11 & iperf3 -A 2 -c $INTERFACE_NFP -P 6 -t 30 -i 30 -p 12 > $CUR_CARD-IPERF12 & iperf3 -A 3 -c $INTERFACE_NFP -P 6 -t 30 -i 30 -p 13 > $CUR_CARD-IPERF13 &" C-m
+            tmus send-keys -t 2 "iperf3 -A 0 -c $INTERFACE_NFP -P 6 -t 30 -i 30 -p 10 > $CUR_CARD-IPERF10_2 & iperf3 -A 1 -c $INTERFACE_NFP -P 6 -t 30 -i 30 -p 11 > $CUR_CARD-IPERF11_2 & iperf3 -A 2 -c $INTERFACE_NFP -P 6 -t 30 -i 30 -p 12 > $CUR_CARD-IPERF12_2 & iperf3 -A 3 -c $INTERFACE_NFP -P 6 -t 30 -i 30 -p 13 > $CUR_CARD-IPERF13_2 &" C-m
 
             sleep 40
 
@@ -646,14 +646,14 @@ else # else $TMUX is not empty, start test.
             INTERFACE_NFP=("$baseaddr.$new_value")
 
 
-            DUT2_INT=$(ssh -i ~/.ssh/netronome_key $IP_DUT2 ip a | grep $INTERFACE_IP -B 3 | grep mtu | cut -d ' ' -f2 | cut -d ':' -f1)
+            DUT2_INT=$(ssh -i ~/.ssh/netronome_key $IP_DUT2 ip a | grep "$INTERFACE_IP" -B 3 | grep mtu | cut -d ' ' -f2 | cut -d ':' -f1)
             echo "Device 2 interface : $DUT2_INT" 
 
             tmux send-keys -t 3 "ifconfig $DUT2_INT mtu 9000" C-m
 
             tmux send-keys -t 2 "cd" C-m
 
-            tmux send-keys -t 2 "/root/Qualcomm/ping_test.sh -i $INTERFACE_NFP" C-m
+            tmux send-keys -t 2 "/root/Qualcomm/ping_test.sh $INTERFACE_NFP" C-m
             
             echo -e "${GREEN}* Setting up ping test${NC}"
             
@@ -750,7 +750,7 @@ else # else $TMUX is not empty, start test.
             tmux send-keys -t 3 "iperf3 -s -p10 & iperf3 -s -p11 & iperf3 -s -p12 & iperf3 -s -p13 &" C-m
             sleep 1
             
-            tmus send-keys -t 2 "iperf3 -A 0 -c $INTERFACE_IP -P 6 -t 30 -i 30 -p 10 > $CUR_CARD-IPERF10 & iperf3 -A 1 -c $INTERFACE_IP -P 6 -t 30 -i 30 -p 11 > $CUR_CARD-IPERF11 & iperf3 -A 2 -c $INTERFACE_IP -P 6 -t 30 -i 30 -p 12 > $CUR_CARD-IPERF12 & iperf3 -A 3 -c $INTERFACE_IP -P 6 -t 30 -i 30 -p 13 > $CUR_CARD-IPERF13 &" C-m
+            tmus send-keys -t 2 "iperf3 -A 0 -c $INTERFACE_IP -P 6 -t 30 -i 30 -p 10 > $CUR_CARD-IPERF10_1 & iperf3 -A 1 -c $INTERFACE_IP -P 6 -t 30 -i 30 -p 11 > $CUR_CARD-IPERF11_1 & iperf3 -A 2 -c $INTERFACE_IP -P 6 -t 30 -i 30 -p 12 > $CUR_CARD-IPERF12_1 & iperf3 -A 3 -c $INTERFACE_IP -P 6 -t 30 -i 30 -p 13 > $CUR_CARD-IPERF13_1 &" C-m
             sleep 40
 
             tmux send-keys -t 3 "^C" C-m
@@ -763,7 +763,7 @@ else # else $TMUX is not empty, start test.
 
             tmux send-keys -t 2 "iperf3 -s -p10 & iperf3 -s -p11 & iperf3 -s -p12 & iperf3 -s -p13 &" C-m
             sleep 1
-            tmus send-keys -t 2 "iperf3 -A 0 -c $INTERFACE_NFP -P 6 -t 30 -i 30 -p 10 > $CUR_CARD-IPERF10 & iperf3 -A 1 -c $INTERFACE_NFP -P 6 -t 30 -i 30 -p 11 > $CUR_CARD-IPERF11 & iperf3 -A 2 -c $INTERFACE_NFP -P 6 -t 30 -i 30 -p 12 > $CUR_CARD-IPERF12 & iperf3 -A 3 -c $INTERFACE_NFP -P 6 -t 30 -i 30 -p 13 > $CUR_CARD-IPERF13 &" C-m
+            tmus send-keys -t 2 "iperf3 -A 0 -c $INTERFACE_NFP -P 6 -t 30 -i 30 -p 10 > $CUR_CARD-IPERF10_2 & iperf3 -A 1 -c $INTERFACE_NFP -P 6 -t 30 -i 30 -p 11 > $CUR_CARD-IPERF11_2 & iperf3 -A 2 -c $INTERFACE_NFP -P 6 -t 30 -i 30 -p 12 > $CUR_CARD-IPERF12_2 & iperf3 -A 3 -c $INTERFACE_NFP -P 6 -t 30 -i 30 -p 13 > $CUR_CARD-IPERF13_2 &" C-m
 
             sleep 40
 

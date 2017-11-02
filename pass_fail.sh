@@ -138,17 +138,17 @@ fi
 
 #perf test
 
-one1=$(cat /root/Qualcomm/results/$CUR_CARD-IPERF10 | grep SUM | sed '$!d' | sed 's/^.*GBytes //' | cut -d 'G' -f1)
-one2=$(cat /root/Qualcomm/results/$CUR_CARD-IPERF11 | grep SUM | sed '$!d' | sed 's/^.*GBytes //' | cut -d 'G' -f1)
-one3=$(cat /root/Qualcomm/results/$CUR_CARD-IPERF12 | grep SUM | sed '$!d' | sed 's/^.*GBytes //' | cut -d 'G' -f1)
-one4=$(cat /root/Qualcomm/results/$CUR_CARD-IPERF13 | grep SUM | sed '$!d' | sed 's/^.*GBytes //' | cut -d 'G' -f1)
+one1=$(cat /root/Qualcomm/results/$CUR_CARD-IPERF10_1 | grep SUM | sed '$!d' | sed 's/^.*GBytes //' | cut -d 'G' -f1)
+one2=$(cat /root/Qualcomm/results/$CUR_CARD-IPERF11_1 | grep SUM | sed '$!d' | sed 's/^.*GBytes //' | cut -d 'G' -f1)
+one3=$(cat /root/Qualcomm/results/$CUR_CARD-IPERF12_1 | grep SUM | sed '$!d' | sed 's/^.*GBytes //' | cut -d 'G' -f1)
+one4=$(cat /root/Qualcomm/results/$CUR_CARD-IPERF13_1 | grep SUM | sed '$!d' | sed 's/^.*GBytes //' | cut -d 'G' -f1)
 
 one_a=$(echo "($one1 + $one2 + $one3 + $one4)" | bc -l)
 
-two1=$(cat /root/Qualcomm/results/$CUR_CARD-IPERF10 | grep SUM | sed '$!d' | sed 's/^.*GBytes //' | cut -d 'G' -f1)
-two2=$(cat /root/Qualcomm/results/$CUR_CARD-IPERF11 | grep SUM | sed '$!d' | sed 's/^.*GBytes //' | cut -d 'G' -f1)
-two3=$(cat /root/Qualcomm/results/$CUR_CARD-IPERF12 | grep SUM | sed '$!d' | sed 's/^.*GBytes //' | cut -d 'G' -f1)
-two4=$(cat /root/Qualcomm/results/$CUR_CARD-IPERF13 | grep SUM | sed '$!d' | sed 's/^.*GBytes //' | cut -d 'G' -f1)
+two1=$(cat /root/Qualcomm/results/$CUR_CARD-IPERF10_2 | grep SUM | sed '$!d' | sed 's/^.*GBytes //' | cut -d 'G' -f1)
+two2=$(cat /root/Qualcomm/results/$CUR_CARD-IPERF11_2 | grep SUM | sed '$!d' | sed 's/^.*GBytes //' | cut -d 'G' -f1)
+two3=$(cat /root/Qualcomm/results/$CUR_CARD-IPERF12_2 | grep SUM | sed '$!d' | sed 's/^.*GBytes //' | cut -d 'G' -f1)
+two4=$(cat /root/Qualcomm/results/$CUR_CARD-IPERF13_2 | grep SUM | sed '$!d' | sed 's/^.*GBytes //' | cut -d 'G' -f1)
 
 two_a=$(echo "($two1 + $two2 + $two3 + $two4)" | bc -l )
 

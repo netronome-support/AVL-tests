@@ -8,22 +8,22 @@ echo $IP_DUT2
 
 #CHeck if tested
 
-if [ -f "/root/Qualcomm/results/Beryllium-iperf_test_1.txt" ]; then
+if [ -f "/root/Qualcomm/results/Beryllium-IPERF10" ]; then
     Beryllium="Tested"
 else 
     Beryllium="Untested"
 fi
-if [ -f "/root/Qualcomm/results/Hydrogen-iperf_test_1.txt" ]; then
+if [ -f "/root/Qualcomm/results/Hydrogen-IPERF10" ]; then
     Hydrogen="Tested"
 else 
     Hydrogen="Untested"
 fi
-if [ -f "/root/Qualcomm/results/Lithium-iperf_test_1.txt" ]; then
+if [ -f "/root/Qualcomm/results/Lithium-IPERF10" ]; then
     Lithium="Tested"
 else 
     Lithium="Untested"
 fi
-if [ -f "/root/Qualcomm/results/Carbon-iperf_test_1.txt" ]; then
+if [ -f "/root/Qualcomm/results/Carbon-IPERF10" ]; then
     Carbon="Tested"
 else 
     Carbon="Untested"
@@ -85,8 +85,21 @@ if [[ "$Beryllium" == "Tested" ]]; then
     echo "" >> /root/Qualcomm/results/logs/2x40_log.txt
     echo "2x40G Beryllium perf log:" >> /root/Qualcomm/results/logs/2x40_log.txt
     echo "" >> /root/Qualcomm/results/logs/2x40_log.txt
-    cat /root/Qualcomm/results/Beryllium-iperf_test_1.txt >> /root/Qualcomm/results/logs/2x40_log.txt
-    cat /root/Qualcomm/results/Beryllium-iperf_test_2.txt >> /root/Qualcomm/results/logs/2x40_log.txt
+    cat /root/Qualcomm/results/Beryllium-IPERF10_1 >> /root/Qualcomm/results/logs/2x40_log.txt
+    echo "" >> /root/Qualcomm/results/logs/2x40_log.txt
+    cat /root/Qualcomm/results/Beryllium-IPERF11_1 >> /root/Qualcomm/results/logs/2x40_log.txt
+    echo "" >> /root/Qualcomm/results/logs/2x40_log.txt
+    cat /root/Qualcomm/results/Beryllium-IPERF14_1 >> /root/Qualcomm/results/logs/2x40_log.txt
+    echo "" >> /root/Qualcomm/results/logs/2x40_log.txt
+    cat /root/Qualcomm/results/Beryllium-IPERF13_1 >> /root/Qualcomm/results/logs/2x40_log.txt
+    echo "" >> /root/Qualcomm/results/logs/2x40_log.txt
+    cat /root/Qualcomm/results/Beryllium-IPERF10_2 >> /root/Qualcomm/results/logs/2x40_log.txt
+    echo "" >> /root/Qualcomm/results/logs/2x40_log.txt
+    cat /root/Qualcomm/results/Beryllium-IPERF11_2 >> /root/Qualcomm/results/logs/2x40_log.txt
+    echo "" >> /root/Qualcomm/results/logs/2x40_log.txt
+    cat /root/Qualcomm/results/Beryllium-IPERF14_2 >> /root/Qualcomm/results/logs/2x40_log.txt
+    echo "" >> /root/Qualcomm/results/logs/2x40_log.txt
+    cat /root/Qualcomm/results/Beryllium-IPERF13_2 >> /root/Qualcomm/results/logs/2x40_log.txt
 
 fi
 
@@ -117,8 +130,21 @@ if [[ "$Lithium" == "Tested" ]]; then
     echo "" >> /root/Qualcomm/results/logs/2x10_log.txt
     echo "2x10G Lithium perf log:" >> /root/Qualcomm/results/logs/2x10_log.txt
     echo "" >> /root/Qualcomm/results/logs/2x10_log.txt
-    cat /root/Qualcomm/results/Lithium-iperf_test_1.txt >> /root/Qualcomm/results/logs/2x10_log.txt
-    cat /root/Qualcomm/results/Lithium-iperf_test_2.txt >> /root/Qualcomm/results/logs/2x10_log.txt
+    cat /root/Qualcomm/results/Lithium-IPERF10_1 >> /root/Qualcomm/results/logs/2x10_log.txt
+    echo "" >> /root/Qualcomm/results/logs/2x10_log.txt
+    cat /root/Qualcomm/results/Lithium-IPERF11_1 >> /root/Qualcomm/results/logs/2x10_log.txt
+    echo "" >> /root/Qualcomm/results/logs/2x10_log.txt
+    cat /root/Qualcomm/results/Lithium-IPERF14_1 >> /root/Qualcomm/results/logs/2x10_log.txt
+    echo "" >> /root/Qualcomm/results/logs/2x10_log.txt
+    cat /root/Qualcomm/results/Lithium-IPERF13_1 >> /root/Qualcomm/results/logs/2x10_log.txt
+    echo "" >> /root/Qualcomm/results/logs/2x10_log.txt
+    cat /root/Qualcomm/results/Lithium-IPERF10_2 >> /root/Qualcomm/results/logs/2x10_log.txt
+    echo "" >> /root/Qualcomm/results/logs/2x10_log.txt
+    cat /root/Qualcomm/results/Lithium-IPERF11_2 >> /root/Qualcomm/results/logs/2x10_log.txt
+    echo "" >> /root/Qualcomm/results/logs/2x10_log.txt
+    cat /root/Qualcomm/results/Lithium-IPERF14_2 >> /root/Qualcomm/results/logs/2x10_log.txt
+    echo "" >> /root/Qualcomm/results/logs/2x10_log.txt
+    cat /root/Qualcomm/results/Lithium-IPERF13_2 >> /root/Qualcomm/results/logs/2x10_log.txt
 
 fi
 
@@ -149,8 +175,21 @@ if [[ "$Hydrogen" == "Tested" ]]; then
     echo "" >> /root/Qualcomm/results/logs/1x40_log.txt
     echo "1x40G Hydrogen perf log:" >> /root/Qualcomm/results/logs/1x40_log.txt
     echo "" >> /root/Qualcomm/results/logs/1x40_log.txt
-    cat /root/Qualcomm/results/Hydrogen-iperf_test_1.txt >> /root/Qualcomm/results/logs/1x40_log.txt
-    cat /root/Qualcomm/results/Hydrogen-iperf_test_2.txt >> /root/Qualcomm/results/logs/1x40_log.txt
+    cat /root/Qualcomm/results/Hydrogen-IPERF10_1 >> /root/Qualcomm/results/logs/1x40_log.txt
+    echo "" >> /root/Qualcomm/results/logs/1x40_log.txt
+    cat /root/Qualcomm/results/Hydrogen-IPERF11_1 >> /root/Qualcomm/results/logs/1x40_log.txt
+    echo "" >> /root/Qualcomm/results/logs/1x40_log.txt
+    cat /root/Qualcomm/results/Hydrogen-IPERF14_1 >> /root/Qualcomm/results/logs/1x40_log.txt
+    echo "" >> /root/Qualcomm/results/logs/1x40_log.txt
+    cat /root/Qualcomm/results/Hydrogen-IPERF13_1 >> /root/Qualcomm/results/logs/1x40_log.txt
+    echo "" >> /root/Qualcomm/results/logs/1x40_log.txt
+    cat /root/Qualcomm/results/Hydrogen-IPERF10_2 >> /root/Qualcomm/results/logs/1x40_log.txt
+    echo "" >> /root/Qualcomm/results/logs/1x40_log.txt
+    cat /root/Qualcomm/results/Hydrogen-IPERF11_2 >> /root/Qualcomm/results/logs/1x40_log.txt
+    echo "" >> /root/Qualcomm/results/logs/1x40_log.txt
+    cat /root/Qualcomm/results/Hydrogen-IPERF14_2 >> /root/Qualcomm/results/logs/1x40_log.txt
+    echo "" >> /root/Qualcomm/results/logs/1x40_log.txt
+    cat /root/Qualcomm/results/Hydrogen-IPERF13_2 >> /root/Qualcomm/results/logs/1x40_log.txt
 
 fi
 
@@ -181,8 +220,21 @@ if [[ "$Carbon" == "Tested" ]]; then
     echo "" >> /root/Qualcomm/results/logs/2x25_log.txt
     echo "2x25G Carbon perf log:" >> /root/Qualcomm/results/logs/2x25_log.txt
     echo "" >> /root/Qualcomm/results/logs/2x25_log.txt
-    cat /root/Qualcomm/results/Carbon-iperf_test_1.txt >> /root/Qualcomm/results/logs/2x25_log.txt
-    cat /root/Qualcomm/results/Carbon-iperf_test_2.txt >> /root/Qualcomm/results/logs/2x25_log.txt
+    cat /root/Qualcomm/results/Carbon-IPERF10_1 >> /root/Qualcomm/results/logs/2x25_log.txt
+    echo "" >> /root/Qualcomm/results/logs/2x25_log.txt
+    cat /root/Qualcomm/results/Carbon-IPERF11_1 >> /root/Qualcomm/results/logs/2x25_log.txt
+    echo "" >> /root/Qualcomm/results/logs/2x25_log.txt
+    cat /root/Qualcomm/results/Carbon-IPERF14_1 >> /root/Qualcomm/results/logs/2x25_log.txt
+    echo "" >> /root/Qualcomm/results/logs/2x25_log.txt
+    cat /root/Qualcomm/results/Carbon-IPERF13_1 >> /root/Qualcomm/results/logs/2x25_log.txt
+    echo "" >> /root/Qualcomm/results/logs/2x25_log.txt
+    cat /root/Qualcomm/results/Carbon-IPERF10_2 >> /root/Qualcomm/results/logs/2x25_log.txt
+    echo "" >> /root/Qualcomm/results/logs/2x25_log.txt
+    cat /root/Qualcomm/results/Carbon-IPERF11_2 >> /root/Qualcomm/results/logs/2x25_log.txt
+    echo "" >> /root/Qualcomm/results/logs/2x25_log.txt
+    cat /root/Qualcomm/results/Carbon-IPERF14_2 >> /root/Qualcomm/results/logs/2x25_log.txt
+    echo "" >> /root/Qualcomm/results/logs/2x25_log.txt
+    cat /root/Qualcomm/results/Carbon-IPERF13_2 >> /root/Qualcomm/results/logs/2x25_log.txt
 
 fi
 
