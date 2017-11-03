@@ -266,17 +266,12 @@ else # else $TMUX is not empty, start test.
 
                 wait_text 2 "DONE(package_install.sh)"
 
-                tmux send-keys -t 2 "/root/AVL-tests/build_dpdk.sh" C-m
-
-                wait_text 2 "DPDK build complete"
-
                 sleep 3
 
                 echo "Please reboot machine"
                 
-                sleep 5            
-
-
+                sleep 5 
+            fi           
             ;;
 
 

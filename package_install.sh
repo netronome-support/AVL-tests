@@ -62,6 +62,7 @@ if [[ $? -eq 0 ]]; then
 
 fi
 
+echo "DONE(package_install.sh)"
 
 
 # CentOS
