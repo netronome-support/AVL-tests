@@ -160,7 +160,7 @@ echo "Speed DUT2 -> ARM : $two_a" >> /root/AVL-tests/results/logs/$CUR_CARD-iper
 
 
 if [[ $CUR_CARD == "Beryllium" ]]; then
-    if [[ $(echo $one_a'>'36 | bc -l) -eq 1 ]] && [[ $(echo $two_a'>'36 | bc -l) -eq 1 ]] ; then
+    if [[ $(echo $one_a'>'15 | bc -l) -eq 1 ]] && [[ $(echo $two_a'>'15 | bc -l) -eq 1 ]] ; then
         perf="pass"
         
     else
@@ -168,19 +168,19 @@ if [[ $CUR_CARD == "Beryllium" ]]; then
         
     fi
 elif [[ $CUR_CARD == "Lithium" ]]; then
-    if [[ $(echo $one_a'>'9 | bc -l) -eq 1 ]] && [[ $(echo $two_a'>'9 | bc -l) -eq 1 ]] ; then
+    if [[ $(echo $one_a'>'4 | bc -l) -eq 1 ]] && [[ $(echo $two_a'>'4 | bc -l) -eq 1 ]] ; then
         perf="pass"
     else
         perf="fail"
     fi
 elif [[ $CUR_CARD == "Hydrogen" ]]; then
-    if [[ $(echo $one_a'>'36 | bc -l) -eq 1 ]] && [[ $(echo $two_a'>'36 | bc -l) -eq 1 ]] ; then
+    if [[ $(echo $one_a'>'15 | bc -l) -eq 1 ]] && [[ $(echo $two_a'>'15 | bc -l) -eq 1 ]] ; then
         perf="pass"
     else
         perf="fail"
     fi
 elif [[ $CUR_CARD == "Carbon" ]]; then
-    if [[ $(echo $one_a'>'22.5 | bc -l) -eq 1 ]] && [[ $(echo $two_a'>'22.5 | bc -l) -eq 1 ]] ; then
+    if [[ $(echo $one_a'>'9 | bc -l) -eq 1 ]] && [[ $(echo $two_a'>'9 | bc -l) -eq 1 ]] ; then
         perf="pass"
     else
         perf="fail"
