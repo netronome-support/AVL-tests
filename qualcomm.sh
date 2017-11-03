@@ -295,6 +295,9 @@ else # else $TMUX is not empty, start test.
             else
 
 
+
+
+
                 tmux send-keys -t 2 "dmesg | grep 'nfp .* Assembly' | sed -n 1p | cut -d ':' -f5 | cut -d '-' -f1 | cut -d ' ' -f2 > /root/AVL-tests/results/cur_card.txt" C-m
                 sleep 1
                 scp -i ~/.ssh/netronome_key root@$IP_ARM:/root/AVL-tests/results/cur_card.txt /root/AVL-tests/results 
@@ -340,11 +343,15 @@ else # else $TMUX is not empty, start test.
                 continue
             fi
 
-            tmux send-keys -t 2 "ip l set enP1s1np0 up" C-m
+            
+            pci_a=$(ssh -i ~/.ssh/netronome_key root@$IP_ARM lspci -d 19ee: | cut -d ' ' -f1)
+            name=$(ssh -i ~/.ssh/netronome_key root@$IP_ARM ls /sys/bus/pci/devices/$pci_a/net | sed -n 1p)
+
+            tmux send-keys -t 2 "ip l set $name up" C-m
 
             tmux send-keys -t 2 "cd" C-m
 
-            tmux send-keys -t 2 "ethtool enP1s1np0 > /root/AVL-tests/results/$CUR_CARD-ethtool.txt" C-m
+            tmux send-keys -t 2 "ethtool $name > /root/AVL-tests/results/$CUR_CARD-ethtool.txt" C-m
             sleep 2
 
             scp -i ~/.ssh/netronome_key root@$IP_ARM:/root/AVL-tests/results/$CUR_CARD-ethtool.txt /root/AVL-tests/results
@@ -623,12 +630,14 @@ else # else $TMUX is not empty, start test.
 
             echo "1) Ethtool test"
 
+            pci_a=$(ssh -i ~/.ssh/netronome_key root@$IP_ARM lspci -d 19ee: | cut -d ' ' -f1)
+            name=$(ssh -i ~/.ssh/netronome_key root@$IP_ARM ls /sys/bus/pci/devices/$pci_a/net | sed -n 1p)
 
-            tmux send-keys -t 2 "ip l set enP1s1np0 up" C-m
+            tmux send-keys -t 2 "ip l set $name up" C-m
 
             tmux send-keys -t 2 "cd" C-m
 
-            tmux send-keys -t 2 "ethtool enP1s1np0 > /root/AVL-tests/results/$CUR_CARD-ethtool.txt" C-m
+            tmux send-keys -t 2 "ethtool $name > /root/AVL-tests/results/$CUR_CARD-ethtool.txt" C-m
             sleep 2
             scp -i ~/.ssh/netronome_key root@$IP_ARM:/root/AVL-tests/results/$CUR_CARD-ethtool.txt /root/AVL-tests/results
             sleep 1
