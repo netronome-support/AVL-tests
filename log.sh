@@ -8,22 +8,22 @@ echo $IP_DUT2
 
 #CHeck if tested
 
-if [ -f "/root/AVL-tests/results/Beryllium-IPERF10*" ]; then
+if [ -f "/root/AVL-tests/results/Beryllium-IPERF10_1" ]; then
     Beryllium="Tested"
 else 
     Beryllium="Untested"
 fi
-if [ -f "/root/AVL-tests/results/Hydrogen-IPERF10*" ]; then
+if [ -f "/root/AVL-tests/results/Hydrogen-IPERF10_1" ]; then
     Hydrogen="Tested"
 else 
     Hydrogen="Untested"
 fi
-if [ -f "/root/AVL-tests/results/Lithium-IPERF10*" ]; then
+if [ -f "/root/AVL-tests/results/Lithium-IPERF10_1" ]; then
     Lithium="Tested"
 else 
     Lithium="Untested"
 fi
-if [ -f "/root/AVL-tests/results/Carbon-IPERF10*" ]; then
+if [ -f "/root/AVL-tests/results/Carbon-IPERF10_1" ]; then
     Carbon="Tested"
 else 
     Carbon="Untested"

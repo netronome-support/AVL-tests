@@ -215,62 +215,66 @@ else # else $TMUX is not empty, start test.
                 continue
             fi
 
-            #tmux send-keys -t 2 "/opt/netronome/bin/agilio-ovs-uninstall.sh"
-            #tmux send-keys -t 2 "apt-get remove nfp-bsp.* ; apt-get remove ns-agilio-core-nic"
-
             cd
-
-            #ls nfp-bsp-6000* 2>/dev/null
-
-            #if [ $? == 2 ]; then
-            #    echo -e "${RED}Please copy NFP BSP package to /root directory of this machine${NC}"
-            #    echo ""
-            #    echo "The packages can be downloaded from support.netronome.com"
-            #    echo ""
-            #fi
 
             ls ns-agilio-core-nic* 2>/dev/null
 
             if [ $? == 2 ]; then
-                echo -e "${RED}Please copy CoreNIC 1.1 package to /root directory of this machine${NC}"
+                packages=0
+            else
+                packages=1
+            fi
+
+            ls nfp-bsp-6000-b0-dev_2017.10.05.1604-1_arm64.deb 2>/dev/null
+            if [ $? == 2 ]; then
+                packages1=0
+            else
+                packages1=1
+            fi
+
+            ls nfp-bsp-6000-b0-dkms_2017.10.05.1604_all.deb 2>/dev/null
+            if [ $? == 2 ]; then
+                packages2=0
+            else
+                packages2=1
+            fi
+
+            ls nfp-bsp-6000-b0_2017.10.05.1604-1_arm64.deb 2>/dev/null
+            if [ $? == 2 ]; then
+                packages3=0
+            else
+                packages3=1
+            fi
+
+
+            if [[ "$packages" == "0" ]] || [[ "$packages1" == "0" ]] || [[ "$packages2" == "0" ]] || [[ "$packages3" == "0" ]]; then
+                echo -e "${RED}Please copy the CoreNIC & BSP packages to /root directory of this machine${NC}"
                 echo ""
                 echo "The packages can be downloaded from support.netronome.com"
+                echo "Names: "
+                echo "\t - nfp-bsp-6000-b0-dev_2017.10.05.1604-1_arm64.deb"
+                echo "\t - nfp-bsp-6000-b0-dkms_2017.10.05.1604_all.deb"
+                echo "\t - nfp-bsp-6000-b0_2017.10.05.1604-1_arm64.deb"
+                echo "\t - ns-agilio-core-nic_1.1-444_all.deb"
                 echo ""
-            fi
+            
+            else
+                scp -i ~/.ssh/netronome_key nfp-bsp-6000-b0*.* root@$IP_ARM:/root/
+                scp -i ~/.ssh/netronome_key ns-agilio-core-nic*.* root@$IP_ARM:/root/
 
-            ls nfp-bsp-6000-b0-20171005160457.ns.aarch64.tgz 2>/dev/null
+                tmux send-keys -t 2 "/root/AVL-tests/package_install.sh" C-m
 
-            if [ $? == 2 ]; then
-                echo -e "${RED}Please copy the BSP package to /root directory of this machine${NC}"
-                echo ""
-                echo "The package will be supplied by Netronome"
-                echo "nfp-bsp-6000-b0-20171005160457.ns.aarch64.tgz"
-            fi
+                wait_text 2 "DONE(package_install.sh)"
 
-            ls agilio-ovs-2.6.B-r5952-2017-10-05.tar.gz 2>/dev/null
+                tmux send-keys -t 2 "/root/AVL-tests/build_dpdk.sh" C-m
 
-            if [ $? == 2 ]; then
-                echo -e "${RED}Please copy the AOVS package to /root directory of this machine${NC}"
-                echo ""
-                echo "The package will be supplied by Netronome"
-                echo "agilio-ovs-2.6.B-r5952-2017-10-05.tar.gz"
-            fi
+                wait_text 2 "DPDK build complete"
 
-            scp -i ~/.ssh/netronome_key nfp-bsp-6000-b0-20171005160457.ns.aarch64.tgz root@$IP_ARM:/root/
-            scp -i ~/.ssh/netronome_key agilio-ovs-2.6.B-r5952-2017-10-05.tar.gz root@$IP_ARM:/root/
-            scp -i ~/.ssh/netronome_key ns-agilio-core-nic*.* root@$IP_ARM:/root/
+                sleep 3
 
-            tmux send-keys -t 2 "/root/AVL-tests/package_install.sh" C-m
-
-            wait_text 2 "DONE(package_install.sh)"
-
-            tmux send-keys -t 2 "/root/AVL-tests/build_dpdk.sh" C-m
-
-            wait_text 2 "DPDK build complete"
-
-            sleep 3
-
-            echo "Please reboot machine"
+                echo "Please reboot machine"
+                
+                sleep 5            
 
 
             ;;
@@ -532,7 +536,7 @@ else # else $TMUX is not empty, start test.
             tmux send-keys -t 3 "pkill iperf -9" C-m
             sleep 1
 
-            scp -i ~/.ssh/netronome_key root@$IP_ARM:/root/AVL-tests/results/$CUR_CARD-IPERF* /root/AVL-tests/results
+            scp -i ~/.ssh/netronome_key root@$IP_ARM:/root/AVL-tests/results/$CUR_CARD-IPERF*_1 /root/AVL-tests/results
 
             sleep 5
 
@@ -550,7 +554,7 @@ else # else $TMUX is not empty, start test.
             tmux send-keys -t 3 "pkill iperf -9" C-m
             sleep 1
 
-            scp -i ~/.ssh/netronome_key root@$IP_DUT2:/root/AVL-tests/results/$CUR_CARD-IPERF* /root/AVL-tests/results
+            scp -i ~/.ssh/netronome_key root@$IP_DUT2:/root/AVL-tests/results/$CUR_CARD-IPERF*_2 /root/AVL-tests/results
 
             sleep 2
 

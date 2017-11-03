@@ -155,6 +155,9 @@ two4=$(cat /root/AVL-tests/results/$CUR_CARD-IPERF13_2 | grep SUM | sed '$!d' | 
 
 two_a=$(echo "($two1 + $two2 + $two3 + $two4)" | bc -l )
 
+echo "Speed ARM -> DUT2 : $one_a" > /root/AVL-tests/results/logs/$CUR_CARD-iperf_test_summary.txt
+echo "Speed DUT2 -> ARM : $two_a" >> /root/AVL-tests/results/logs/$CUR_CARD-iperf_test_summary.txt
+
 
 if [[ $CUR_CARD == "Beryllium" ]]; then
     if [[ $(echo $one_a'>'36 | bc -l) -eq 1 ]] && [[ $(echo $two_a'>'36 | bc -l) -eq 1 ]] ; then
