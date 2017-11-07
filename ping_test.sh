@@ -29,5 +29,13 @@ ip link set $PHY up
 ifconfig $PHY mtu 9000
 ifconfig $ETH mtu 9000
 
+/opt/netronome/bin/set_irq_affinity.sh $ETH
+
+sleep 3
+
+/opt/netronome/bin/set_irq_affinity.sh $PHY
+
+sleep 3
+
 echo "DONE($(basename $0))"
 exit 0
