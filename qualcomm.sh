@@ -125,6 +125,8 @@ else # else $TMUX is not empty, start test.
             echo "2) Please configure the port used to connect to the ARM (back-to-back) with an IP."
             echo "3) Pass both IPs to the script when connecting."
             echo ""
+            echo "Please note that if IRQ's on the receiving end are ot pinned to specific CPUs the IPERF performance may suffer significantly"
+            echo "The current pass limit is 40% line rate to prohibit the test failing because of the receiving end."
             sleep 10
             ;;
         

@@ -158,9 +158,9 @@ two_a=$(echo "($two1 + $two2 + $two3 + $two4)" | bc -l )
 echo "Speed ARM -> DUT2 : $one_a" > /root/AVL-tests/results/logs/$CUR_CARD-iperf_test_summary.txt
 echo "Speed DUT2 -> ARM : $two_a" >> /root/AVL-tests/results/logs/$CUR_CARD-iperf_test_summary.txt
 
-
+#Limit for pass/fail is set to 40% line rate
 if [[ $CUR_CARD == "Beryllium" ]]; then
-    if [[ $(echo $one_a'>'15 | bc -l) -eq 1 ]] && [[ $(echo $two_a'>'15 | bc -l) -eq 1 ]] ; then
+    if [[ $(echo $one_a'>'16 | bc -l) -eq 1 ]] && [[ $(echo $two_a'>'16 | bc -l) -eq 1 ]] ; then
         perf="pass"
         
     else
@@ -174,13 +174,13 @@ elif [[ $CUR_CARD == "Lithium" ]]; then
         perf="fail"
     fi
 elif [[ $CUR_CARD == "Hydrogen" ]]; then
-    if [[ $(echo $one_a'>'15 | bc -l) -eq 1 ]] && [[ $(echo $two_a'>'15 | bc -l) -eq 1 ]] ; then
+    if [[ $(echo $one_a'>'16 | bc -l) -eq 1 ]] && [[ $(echo $two_a'>'16 | bc -l) -eq 1 ]] ; then
         perf="pass"
     else
         perf="fail"
     fi
 elif [[ $CUR_CARD == "Carbon" ]]; then
-    if [[ $(echo $one_a'>'9 | bc -l) -eq 1 ]] && [[ $(echo $two_a'>'9 | bc -l) -eq 1 ]] ; then
+    if [[ $(echo $one_a'>'10 | bc -l) -eq 1 ]] && [[ $(echo $two_a'>'10 | bc -l) -eq 1 ]] ; then
         perf="pass"
     else
         perf="fail"
