@@ -352,6 +352,14 @@ else # else $TMUX is not empty, start test.
 
             
             pci_a=$(ssh -i ~/.ssh/netronome_key root@$IP_ARM lspci -d 19ee: | cut -d ' ' -f1 | sed -n 1p)
+
+            if [[ "$pci_a" == *":"*":"*"."* ]]; then 
+                echo "pci_a correct format"
+            elif [[ "$pci_a" == *":"*"."* ]]; then
+                echo "pci_a incorrect format"
+            pci_a="0000:$pci_a"
+            fi
+
             name=$(ssh -i ~/.ssh/netronome_key root@$IP_ARM ls /sys/bus/pci/devices/$pci_a/net | sed -n 1p)
 
             tmux send-keys -t 2 "ip l set $name up" C-m
@@ -642,6 +650,15 @@ else # else $TMUX is not empty, start test.
             echo "1) Ethtool test"
 
             pci_a=$(ssh -i ~/.ssh/netronome_key root@$IP_ARM lspci -d 19ee: | cut -d ' ' -f1 | sed -n 1p)
+
+
+            if [[ "$pci_a" == *":"*":"*"."* ]]; then 
+                echo "pci_a correct format"
+            elif [[ "$pci_a" == *":"*"."* ]]; then
+                echo "pci_a incorrect format"
+            pci_a="0000:$pci_a"
+            fi
+            
             name=$(ssh -i ~/.ssh/netronome_key root@$IP_ARM ls /sys/bus/pci/devices/$pci_a/net | sed -n 1p)
 
             tmux send-keys -t 2 "ip l set $name up" C-m
