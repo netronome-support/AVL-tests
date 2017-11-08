@@ -18,18 +18,20 @@ sleep 1
 
 
 #Get netdev name
-ETH=$(ls /sys/bus/pci/devices/$PCI/virtfn0/net)
-PHY=$(ls /sys/bus/pci/devices/$PCI/net)
+ETH=$(ls /sys/bus/pci/devices/$PCI/virtfn0/net | sed -n 1p)
+PHY=$(ls /sys/bus/pci/devices/$PCI/net | sed -n 1p)
 #Assign IP to netdev and up the interface
 ip a add $INTERFACE_NFP/24 dev $ETH
-ip link set dev $ETH up
+sleep 1
+ip link set $ETH up
+sleep 1
 ip link set $PHY up
 
+sleep 1
 #Change MTU's
 ifconfig $PHY mtu 9000
+sleep 1
 ifconfig $ETH mtu 9000
-
-/opt/netronome/bin/set_irq_affinity.sh $ETH
 
 sleep 3
 

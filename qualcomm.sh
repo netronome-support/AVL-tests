@@ -346,7 +346,7 @@ else # else $TMUX is not empty, start test.
             fi
 
             
-            pci_a=$(ssh -i ~/.ssh/netronome_key root@$IP_ARM lspci -d 19ee: | cut -d ' ' -f1)
+            pci_a=$(ssh -i ~/.ssh/netronome_key root@$IP_ARM lspci -d 19ee: | cut -d ' ' -f1 | sed -n 1p)
             name=$(ssh -i ~/.ssh/netronome_key root@$IP_ARM ls /sys/bus/pci/devices/$pci_a/net | sed -n 1p)
 
             tmux send-keys -t 2 "ip l set $name up" C-m
@@ -632,7 +632,7 @@ else # else $TMUX is not empty, start test.
 
             echo "1) Ethtool test"
 
-            pci_a=$(ssh -i ~/.ssh/netronome_key root@$IP_ARM lspci -d 19ee: | cut -d ' ' -f1)
+            pci_a=$(ssh -i ~/.ssh/netronome_key root@$IP_ARM lspci -d 19ee: | cut -d ' ' -f1 | sed -n 1p)
             name=$(ssh -i ~/.ssh/netronome_key root@$IP_ARM ls /sys/bus/pci/devices/$pci_a/net | sed -n 1p)
 
             tmux send-keys -t 2 "ip l set $name up" C-m
