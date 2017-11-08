@@ -351,6 +351,28 @@ else # else $TMUX is not empty, start test.
             fi
 
             
+
+            DUT2_INT=$(ssh -i ~/.ssh/netronome_key $IP_DUT2 ip a | grep "$INTERFACE_IP" -B 3 | grep mtu | cut -d ' ' -f2 | cut -d ':' -f1)
+            tmux send-keys -t 3 "ip link set $DUT2_INT up" C-m
+
+            pci_a=$(ssh -i ~/.ssh/netronome_key root@$IP_ARM lspci -d 19ee: | cut -d ' ' -f1 | sed -n 1p)
+
+            if [[ "$pci_a" == *":"*":"*"."* ]]; then 
+                echo "pci_a correct format"
+            elif [[ "$pci_a" == *":"*"."* ]]; then
+                echo "pci_a incorrect format"
+            pci_a="0000:$pci_a"
+            fi
+
+            PHY1=$(ssh -i ~/.ssh/netronome_key $IP_ARM ls /sys/bus/pci/devices/$pci_a/net | sed -n 1p)
+            
+            tmux send-keys -t 2 "ip link set $PHY1 up" C-m
+
+            sleep 1
+
+            
+            tmux send-keys -t 2 "ethtool $name > /root/AVL-tests/results/$CUR_CARD-ethtool.txt" C-m
+
             pci_a=$(ssh -i ~/.ssh/netronome_key root@$IP_ARM lspci -d 19ee: | cut -d ' ' -f1 | sed -n 1p)
 
             if [[ "$pci_a" == *":"*":"*"."* ]]; then 
@@ -658,7 +680,16 @@ else # else $TMUX is not empty, start test.
                 echo "pci_a incorrect format"
             pci_a="0000:$pci_a"
             fi
-            
+
+            DUT2_INT=$(ssh -i ~/.ssh/netronome_key $IP_DUT2 ip a | grep "$INTERFACE_IP" -B 3 | grep mtu | cut -d ' ' -f2 | cut -d ':' -f1)
+            tmux send-keys -t 3 "ip link set $DUT2_INT up" C-m
+
+
+            PHY1=$(ssh -i ~/.ssh/netronome_key $IP_ARM ls /sys/bus/pci/devices/$pci_a/net | sed -n 1p)
+            tmux send-keys -t 2 "ip link set $PHY1 up" C-m
+
+            sleep 1
+
             name=$(ssh -i ~/.ssh/netronome_key root@$IP_ARM ls /sys/bus/pci/devices/$pci_a/net | sed -n 1p)
 
             tmux send-keys -t 2 "ip l set $name up" C-m
