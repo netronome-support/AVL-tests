@@ -149,14 +149,14 @@ else # else $TMUX is not empty, start test.
             tmux send-keys -t 2 "cd" C-m
             tmux send-keys -t 3 "cd" C-m
 
-            tmux send-keys -t 2 "rm -r Qualcomm" C-m
-            tmux send-keys -t 3 "rm -r Qualcomm" C-m
+            tmux send-keys -t 2 "rm -r AVL-tests" C-m
+            tmux send-keys -t 3 "rm -r AVL-tests" C-m
 
-            tmux send-keys -t 2 "mkdir -p Qualcomm" C-m
-            tmux send-keys -t 3 "mkdir -p Qualcomm" C-m
+            tmux send-keys -t 2 "mkdir -p AVL-tests" C-m
+            tmux send-keys -t 3 "mkdir -p AVL-tests" C-m
 
-            tmux send-keys -t 2 "cd Qualcomm" C-m
-            tmux send-keys -t 3 "cd Qualcomm" C-m
+            tmux send-keys -t 2 "cd AVL-tests" C-m
+            tmux send-keys -t 3 "cd AVL-tests" C-m
 
             tmux send-keys -t 2 "mkdir -p results" C-m
             tmux send-keys -t 3 "mkdir -p results" C-m
