@@ -264,13 +264,18 @@ else # else $TMUX is not empty, start test.
                 scp -i ~/.ssh/netronome_key nfp-bsp-6000-b0*.* root@$IP_ARM:/root/
                 scp -i ~/.ssh/netronome_key ns-agilio-core-nic*.* root@$IP_ARM:/root/
 
+                scp -i ~/.ssh/netronome_key nfp-bsp-6000-b0*.* root@$IP_DUT2:/root/
+                scp -i ~/.ssh/netronome_key ns-agilio-core-nic*.* root@$IP_DUT2:/root/
+
                 tmux send-keys -t 2 "/root/AVL-tests/package_install.sh" C-m
+                tmux send-keys -t 3 "/root/AVL-tests/package_install.sh" C-m
+
 
                 wait_text 2 "DONE(package_install.sh)"
 
                 sleep 3
 
-                echo "Please reboot machine"
+                echo "Please reboot machines"
                 
                 sleep 5 
             fi           
@@ -351,6 +356,8 @@ else # else $TMUX is not empty, start test.
 
             tmux send-keys -t 2 "ip l set $name up" C-m
 
+            sleep 5
+
             tmux send-keys -t 2 "cd" C-m
 
             tmux send-keys -t 2 "ethtool $name > /root/AVL-tests/results/$CUR_CARD-ethtool.txt" C-m
@@ -408,6 +415,8 @@ else # else $TMUX is not empty, start test.
 
             tmux send-keys -t 3 "ifconfig $DUT2_INT mtu 9000" C-m
             tmux send-keys -t 3 "ip link set $DUT2_INT up" C-m
+            tmux send-keys -t 3 "/opt/netronome/bin/set_irq_affinity.sh $DUT2_INT" C-m
+
             
 
             tmux send-keys -t 2 "cd" C-m

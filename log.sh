@@ -66,7 +66,7 @@ if [[ "$Beryllium" == "Tested" ]]; then
     echo "" >> /root/AVL-tests/results/logs/2x40_log.txt
     cat /root/AVL-tests/results/Beryllium-ethtool.txt >> /root/AVL-tests/results/logs/2x40_log.txt
     echo "" >> /root/AVL-tests/results/logs/2x40_log.txt
-    echo "2x40G Beryllium ethtool log:" >> /root/AVL-tests/results/logs/2x40_log.txt
+    echo "2x40G Beryllium ISA log:" >> /root/AVL-tests/results/logs/2x40_log.txt
     echo "" >> /root/AVL-tests/results/logs/2x40_log.txt
     cat /root/AVL-tests/results/Beryllium-isa.txt >> /root/AVL-tests/results/logs/2x40_log.txt
     echo "" >> /root/AVL-tests/results/logs/2x40_log.txt
@@ -111,7 +111,7 @@ if [[ "$Lithium" == "Tested" ]]; then
     echo "" >> /root/AVL-tests/results/logs/2x10_log.txt
     cat /root/AVL-tests/results/Lithium-ethtool.txt >> /root/AVL-tests/results/logs/2x10_log.txt
     echo "" >> /root/AVL-tests/results/logs/2x10_log.txt
-    echo "2x10G Lithium ethtool log:" >> /root/AVL-tests/results/logs/2x10_log.txt
+    echo "2x10G Lithium ISA log:" >> /root/AVL-tests/results/logs/2x10_log.txt
     echo "" >> /root/AVL-tests/results/logs/2x10_log.txt
     cat /root/AVL-tests/results/Lithium-isa.txt >> /root/AVL-tests/results/logs/2x10_log.txt
     echo "" >> /root/AVL-tests/results/logs/2x10_log.txt
@@ -156,7 +156,7 @@ if [[ "$Hydrogen" == "Tested" ]]; then
     echo "" >> /root/AVL-tests/results/logs/1x40_log.txt
     cat /root/AVL-tests/results/Hydrogen-ethtool.txt >> /root/AVL-tests/results/logs/1x40_log.txt
     echo "" >> /root/AVL-tests/results/logs/1x40_log.txt
-    echo "1x40G Hydrogen ethtool log:" >> /root/AVL-tests/results/logs/1x40_log.txt
+    echo "1x40G Hydrogen ISA log:" >> /root/AVL-tests/results/logs/1x40_log.txt
     echo "" >> /root/AVL-tests/results/logs/1x40_log.txt
     cat /root/AVL-tests/results/Hydrogen-isa.txt >> /root/AVL-tests/results/logs/1x40_log.txt
     echo "" >> /root/AVL-tests/results/logs/1x40_log.txt
@@ -201,7 +201,7 @@ if [[ "$Carbon" == "Tested" ]]; then
     echo "" >> /root/AVL-tests/results/logs/2x25_log.txt
     cat /root/AVL-tests/results/Carbon-ethtool.txt >> /root/AVL-tests/results/logs/2x25_log.txt
     echo "" >> /root/AVL-tests/results/logs/2x25_log.txt
-    echo "2x25G Carbon ethtool log:" >> /root/AVL-tests/results/logs/2x25_log.txt
+    echo "2x25G Carbon ISA log:" >> /root/AVL-tests/results/logs/2x25_log.txt
     echo "" >> /root/AVL-tests/results/logs/2x25_log.txt
     cat /root/AVL-tests/results/Carbon-isa.txt >> /root/AVL-tests/results/logs/2x25_log.txt
     echo "" >> /root/AVL-tests/results/logs/2x25_log.txt
