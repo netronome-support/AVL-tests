@@ -369,15 +369,15 @@ else # else $TMUX is not empty, start test.
             sleep 1
             
             PHY1=$(ssh -i ~/.ssh/netronome_key root@$IP_ARM ls /sys/bus/pci/devices/$pci_a/net | sed -n 1p)
+            
             sleep 1
             
             tmux send-keys -t 2 "ip link set $PHY1 up" C-m
 
             sleep 5
 
-            tmux send-keys -t 2 "cd" C-m
-
             tmux send-keys -t 2 "ethtool $PHY1 > /root/AVL-tests/results/$CUR_CARD-ethtool.txt" C-m
+            
             sleep 2
 
             scp -i ~/.ssh/netronome_key root@$IP_ARM:/root/AVL-tests/results/$CUR_CARD-ethtool.txt /root/AVL-tests/results
@@ -675,15 +675,15 @@ else # else $TMUX is not empty, start test.
             sleep 1
             
             PHY1=$(ssh -i ~/.ssh/netronome_key root@$IP_ARM ls /sys/bus/pci/devices/$pci_a/net | sed -n 1p)
+            
             sleep 1
             
             tmux send-keys -t 2 "ip link set $PHY1 up" C-m
 
             sleep 5
 
-            tmux send-keys -t 2 "cd" C-m
-
             tmux send-keys -t 2 "ethtool $PHY1 > /root/AVL-tests/results/$CUR_CARD-ethtool.txt" C-m
+            
             sleep 2
 
             scp -i ~/.ssh/netronome_key root@$IP_ARM:/root/AVL-tests/results/$CUR_CARD-ethtool.txt /root/AVL-tests/results
