@@ -230,6 +230,8 @@ else # else $TMUX is not empty, start test.
                 packages=1
             fi
 
+            sleep 1
+
             ls nfp-bsp-6000-b0-dev_2017.10.05.1604-1_arm64.deb 2>/dev/null
             
             if [ $? == 2 ]; then
@@ -238,6 +240,8 @@ else # else $TMUX is not empty, start test.
             else
                 packages1=1
             fi
+
+            sleep 1
 
             ls nfp-bsp-6000-b0-dkms_2017.10.05.1604_all.deb 2>/dev/null
             
@@ -248,6 +252,8 @@ else # else $TMUX is not empty, start test.
                 packages2=1
             fi
 
+            sleep 1
+
             ls nfp-bsp-6000-b0_2017.10.05.1604-1_arm64.deb 2>/dev/null
             
             if [ $? == 2 ]; then
@@ -256,6 +262,10 @@ else # else $TMUX is not empty, start test.
             else
                 packages3=1
             fi
+
+            sleep 1
+
+            echo "Checking packages..."
 
 
             if [[ "$packages" == "0" ]] || [[ "$packages1" == "0" ]] || [[ "$packages2" == "0" ]] || [[ "$packages3" == "0" ]]; then
@@ -270,11 +280,18 @@ else # else $TMUX is not empty, start test.
                 echo ""
             
             else
+                sleep 1
                 scp -i ~/.ssh/netronome_key nfp-bsp-6000-b0*.* root@$IP_ARM:/root/
+                sleep 1
                 scp -i ~/.ssh/netronome_key ns-agilio-core-nic*.* root@$IP_ARM:/root/
+                sleep 1
 
                 scp -i ~/.ssh/netronome_key nfp-bsp-6000-b0*.* root@$IP_DUT2:/root/
+                sleep 1
                 scp -i ~/.ssh/netronome_key ns-agilio-core-nic*.* root@$IP_DUT2:/root/
+                sleep 1
+
+                sleep 3
 
                 tmux send-keys -t 2 "/root/AVL-tests/package_install.sh" C-m
                 tmux send-keys -t 3 "/root/AVL-tests/package_install.sh" C-m
@@ -287,7 +304,9 @@ else # else $TMUX is not empty, start test.
                 echo "Please reboot machines"
                 
                 sleep 5 
-            fi           
+            fi  
+
+            sleep 5         
             ;;
 
 
