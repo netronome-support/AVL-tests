@@ -138,14 +138,26 @@ else # else $TMUX is not empty, start test.
             read -p "Enter secondary device back-to-back connection interface IP: " INTERFACE_IP
 
             #Copy n new public key to DUT's
-            /root/AVL-tests/copy_ssh_key.sh $IP_ARM $IP_DUT2
+            /root/AVL-tests/copy_ssh_key.sh $IP_ARM $IP_DUT2 
 
-            sleep 2
+            mkdir -p /root/AVL-tests/results
+            mkdir -p /root/AVL-tests/results/logs
 
-                       
+            if [ ! -f /root/AVL-tests/results/logs/results.txt ]; then
+                touch /root/AVL-tests/results/logs/results.txt
+            fi           
+
+            sleep 1
+
+            #SSH into DUT's
+            tmux send-keys -t 2 "ssh -i ~/.ssh/netronome_key root@$IP_ARM" C-m
+            tmux send-keys -t 3 "ssh -i ~/.ssh/netronome_key root@$IP_DUT2" C-m
+
             
-            sleep 2
-            
+            sleep 5
+            #wait_text 2 "DONE(package_install.sh)"
+            #wait_text 2 "DONE(package_install.sh)"
+
             tmux send-keys -t 2 "cd" C-m
             tmux send-keys -t 3 "cd" C-m
 
@@ -167,26 +179,13 @@ else # else $TMUX is not empty, start test.
             tmux send-keys -t 2 "mkdir -p logs" C-m
             tmux send-keys -t 3 "mkdir -p logs" C-m
 
-            mkdir -p /root/AVL-tests/results
-            mkdir -p /root/AVL-tests/results/logs
-            
-            if [ ! -f /root/AVL-tests/results/logs/results.txt ]; then
-                touch /root/AVL-tests/results/logs/results.txt
-            fi
+            tmux send-keys -t 2 "/root/AVL-tests/copy_ssh_key.sh $IP_DUT2" C-m
+            tmux send-keys -t 3 "/root/AVL-tests/copy_ssh_key.sh $IP_ARM" C-m 
 
-            sleep 1
+            sleep 2
 
             scp -i ~/.ssh/netronome_key -r /root/AVL-tests/ root@$IP_ARM:/root/
             scp -i ~/.ssh/netronome_key -r /root/AVL-tests/ root@$IP_DUT2:/root/
-
-            sleep 1
-
-            #SSH into DUT's
-            tmux send-keys -t 2 "ssh -i ~/.ssh/netronome_key root@$IP_ARM" C-m
-            tmux send-keys -t 3 "ssh -i ~/.ssh/netronome_key root@$IP_DUT2" C-m
-
-            tmux send-keys -t 2 "/root/AVL-tests/copy_ssh_key.sh $IP_DUT2" C-m
-            tmux send-keys -t 3 "/root/AVL-tests/copy_ssh_key.sh $IP_ARM" C-m 
 
             sleep 1
             
