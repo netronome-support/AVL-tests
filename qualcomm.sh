@@ -167,8 +167,8 @@ else # else $TMUX is not empty, start test.
             tmux send-keys -t 2 "mkdir -p logs" C-m
             tmux send-keys -t 3 "mkdir -p logs" C-m
 
-            mkdir /root/AVL-tests/results
-            mkdir /root/AVL-tests/results/logs
+            mkdir -p /root/AVL-tests/results
+            mkdir -p /root/AVL-tests/results/logs
             
             if [ ! -f /root/AVL-tests/results/logs/results.txt ]; then
                 touch /root/AVL-tests/results/logs/results.txt
@@ -219,31 +219,40 @@ else # else $TMUX is not empty, start test.
 
             cd
 
+            echo "Installing CoreNIC...."
+
             ls ns-agilio-core-nic* 2>/dev/null
 
             if [ $? == 2 ]; then
                 packages=0
+                echo "CoreNIC package misisng"
             else
                 packages=1
             fi
 
             ls nfp-bsp-6000-b0-dev_2017.10.05.1604-1_arm64.deb 2>/dev/null
+            
             if [ $? == 2 ]; then
                 packages1=0
+                echo "BSP package missing"
             else
                 packages1=1
             fi
 
             ls nfp-bsp-6000-b0-dkms_2017.10.05.1604_all.deb 2>/dev/null
+            
             if [ $? == 2 ]; then
                 packages2=0
+                echo "BSP package missing"
             else
                 packages2=1
             fi
 
             ls nfp-bsp-6000-b0_2017.10.05.1604-1_arm64.deb 2>/dev/null
+            
             if [ $? == 2 ]; then
                 packages3=0
+                echo "BSP package missing"
             else
                 packages3=1
             fi
