@@ -292,8 +292,8 @@ else # else $TMUX is not empty, start test.
 
                 sleep 3
 
-                tmux send-keys -t 2 "/local/mnt/workspace/AVL-tests/package_install.sh" C-m
-                tmux send-keys -t 3 "/local/mnt/workspace/AVL-tests/package_install.sh" C-m
+                tmux send-keys -t 2 "/home/ubuntu/AVL-tests/package_install.sh" C-m
+                tmux send-keys -t 3 "/home/ubuntu/AVL-tests/package_install.sh" C-m
 
 
                 wait_text 2 "DONE(package_install.sh)"
@@ -332,7 +332,7 @@ else # else $TMUX is not empty, start test.
 
 
 
-                tmux send-keys -t 2 "dmesg | grep 'nfp .* Assembly' | sed -n 1p | cut -d ':' -f5 | cut -d '-' -f1 | cut -d ' ' -f2 > /local/mnt/workspace/AVL-tests/results/cur_card.txt" C-m
+                tmux send-keys -t 2 "dmesg | grep 'nfp .* Assembly' | sed -n 1p | cut -d ':' -f5 | cut -d '-' -f1 | cut -d ' ' -f2 > /home/ubuntu/AVL-tests/results/cur_card.txt" C-m
                 sleep 1
                 scp -i ~/.ssh/netronome_key ubuntu@$IP_ARM:/home/ubuntu/AVL-tests/results/cur_card.txt /local/mnt/workspace/AVL-tests/results 
 
@@ -403,7 +403,7 @@ else # else $TMUX is not empty, start test.
 
             sleep 5
 
-            tmux send-keys -t 2 "ethtool $PHY1 > /local/mnt/workspace/AVL-tests/results/$CUR_CARD-ethtool.txt" C-m
+            tmux send-keys -t 2 "ethtool $PHY1 > /home/ubuntu/AVL-tests/results/$CUR_CARD-ethtool.txt" C-m
             
             sleep 2
 
@@ -425,7 +425,7 @@ else # else $TMUX is not empty, start test.
                 continue
             fi
             
-                tmux send-keys -t 2 "dmesg | grep 'Assembly\|BSP' > /local/mnt/workspace/AVL-tests/results/$CUR_CARD-isa.txt" C-m
+                tmux send-keys -t 2 "dmesg | grep 'Assembly\|BSP' > /home/ubuntu/AVL-tests/results/$CUR_CARD-isa.txt" C-m
                 sleep 2
                 scp -i ~/.ssh/netronome_key ubuntu@$IP_ARM:/home/ubuntu/AVL-tests/results/$CUR_CARD-isa.txt /local/mnt/workspace/AVL-tests/results
                 sleep 1
@@ -465,7 +465,7 @@ else # else $TMUX is not empty, start test.
 
             tmux send-keys -t 2 "cd" C-m
 
-            tmux send-keys -t 2 "/local/mnt/workspace/AVL-tests/ping_test.sh $INTERFACE_NFP" C-m
+            tmux send-keys -t 2 "/home/ubuntu/AVL-tests/ping_test.sh $INTERFACE_NFP" C-m
             
             echo -e "${GREEN}* Setting up ping test${NC}"
             
@@ -476,7 +476,7 @@ else # else $TMUX is not empty, start test.
             
 
 
-            tmux send-keys -t 2 "ping $INTERFACE_IP -c 6 | tee /local/mnt/workspace/AVL-tests/results/$CUR_CARD-ping_test_1.txt" C-m
+            tmux send-keys -t 2 "ping $INTERFACE_IP -c 6 | tee /home/ubuntu/AVL-tests/results/$CUR_CARD-ping_test_1.txt" C-m
 
             wait_text 2 "ping statistics"
 
@@ -486,7 +486,7 @@ else # else $TMUX is not empty, start test.
 
             sleep 1
 
-            tmux send-keys -t 3 "ping $INTERFACE_NFP -c 6 | tee /local/mnt/workspace/AVL-tests/results/$CUR_CARD-ping_test_2.txt" C-m
+            tmux send-keys -t 3 "ping $INTERFACE_NFP -c 6 | tee /home/ubuntu/AVL-tests/results/$CUR_CARD-ping_test_2.txt" C-m
 
             wait_text 3 "ping statistics"
 
@@ -513,7 +513,7 @@ else # else $TMUX is not empty, start test.
             fi            
             
             #ssh from 2nd DUT to nfp
-            tmux send-keys -t 3 "ssh -i ~/.ssh/netronome_key $INTERFACE_NFP 'dmesg | grep Assembly' > /local/mnt/workspace/AVL-tests/results/$CUR_CARD-ssh_test.txt" C-m
+            tmux send-keys -t 3 "ssh -i ~/.ssh/netronome_key $INTERFACE_NFP 'dmesg | grep Assembly' > /home/ubuntu/AVL-tests/results/$CUR_CARD-ssh_test.txt" C-m
 
             sleep 2
 
@@ -534,11 +534,11 @@ else # else $TMUX is not empty, start test.
                 continue
             fi
             
-            tmux send-keys -t 2 "dmesg | grep Assembly > /local/mnt/workspace/AVL-tests/results/$CUR_CARD-dmesg_scp.txt" C-m
+            tmux send-keys -t 2 "dmesg | grep Assembly > /home/ubuntu/AVL-tests/results/$CUR_CARD-dmesg_scp.txt" C-m
 
             #scp from 2nd Dut to nfp
 
-            tmux send-keys -t 3 "scp -i ~/.ssh/netronome_key $INTERFACE_NFP:/local/mnt/workspace/AVL-tests/results/$CUR_CARD-dmesg_scp.txt /local/mnt/workspace/AVL-tests/results" C-m
+            tmux send-keys -t 3 "scp -i ~/.ssh/netronome_key $INTERFACE_NFP:/home/ubuntu/AVL-tests/results/$CUR_CARD-dmesg_scp.txt /local/mnt/workspace/AVL-tests/results" C-m
 
             sleep 2
 
@@ -577,8 +577,8 @@ else # else $TMUX is not empty, start test.
             tmux send-keys -t 3 "pkill iperf -9" C-m
             sleep 1
 
-            tmux send-keys -t 2 "cd /local/mnt/workspace/AVL-tests/results" C-m
-            tmux send-keys -t 3 "cd /local/mnt/workspace/AVL-tests/results" C-m
+            tmux send-keys -t 2 "cd /home/ubuntu/AVL-tests/results" C-m
+            tmux send-keys -t 3 "cd /home/ubuntu/AVL-tests/results" C-m
 
             tmux send-keys -t 3 "iperf3 -s -p10 & iperf3 -s -p11 & iperf3 -s -p12 & iperf3 -s -p13 &" C-m
             sleep 1
@@ -646,7 +646,7 @@ else # else $TMUX is not empty, start test.
                 echo "Please install CoreNIC package first"
                 sleep 3
             else
-                tmux send-keys -t 2 "dmesg | grep 'nfp .* Assembly' | sed -n 1p | cut -d ':' -f5 | cut -d '-' -f1 | cut -d ' ' -f2 > /local/mnt/workspace/AVL-tests/results/cur_card.txt" C-m
+                tmux send-keys -t 2 "dmesg | grep 'nfp .* Assembly' | sed -n 1p | cut -d ':' -f5 | cut -d '-' -f1 | cut -d ' ' -f2 > /home/ubuntu/AVL-tests/results/cur_card.txt" C-m
                 sleep 1
                 scp -i ~/.ssh/netronome_key ubuntu@$IP_ARM:/home/ubuntu/AVL-tests/results/cur_card.txt /local/mnt/workspace/AVL-tests/results 
 
@@ -709,7 +709,7 @@ else # else $TMUX is not empty, start test.
 
             sleep 5
 
-            tmux send-keys -t 2 "ethtool $PHY1 > /local/mnt/workspace/AVL-tests/results/$CUR_CARD-ethtool.txt" C-m
+            tmux send-keys -t 2 "ethtool $PHY1 > /home/ubuntu/AVL-tests/results/$CUR_CARD-ethtool.txt" C-m
             
             sleep 2
 
@@ -731,7 +731,7 @@ else # else $TMUX is not empty, start test.
                 continue
             fi
             
-                tmux send-keys -t 2 "dmesg | grep 'Assembly\|BSP' > /local/mnt/workspace/AVL-tests/results/$CUR_CARD-isa.txt" C-m
+                tmux send-keys -t 2 "dmesg | grep 'Assembly\|BSP' > /home/ubuntu/AVL-tests/results/$CUR_CARD-isa.txt" C-m
                 sleep 2
                 scp -i ~/.ssh/netronome_key ubuntu@$IP_ARM:/home/ubuntu/AVL-tests/results/$CUR_CARD-isa.txt /local/mnt/workspace/AVL-tests/results
                 sleep 1
@@ -760,7 +760,7 @@ else # else $TMUX is not empty, start test.
 
             tmux send-keys -t 2 "cd" C-m
 
-            tmux send-keys -t 2 "/local/mnt/workspace/AVL-tests/ping_test.sh $INTERFACE_NFP" C-m
+            tmux send-keys -t 2 "/home/ubuntu/AVL-tests/ping_test.sh $INTERFACE_NFP" C-m
             
             echo -e "${GREEN}* Setting up ping test${NC}"
             
@@ -768,7 +768,7 @@ else # else $TMUX is not empty, start test.
 
             echo -e "${GREEN}* Running test case 1 - Simple ping${NC}"
 
-            tmux send-keys -t 2 "ping $INTERFACE_IP -c 6 | tee /local/mnt/workspace/AVL-tests/results/$CUR_CARD-ping_test_1.txt" C-m
+            tmux send-keys -t 2 "ping $INTERFACE_IP -c 6 | tee /home/ubuntu/AVL-tests/results/$CUR_CARD-ping_test_1.txt" C-m
 
             wait_text 2 "ping statistics"
 
@@ -778,7 +778,7 @@ else # else $TMUX is not empty, start test.
 
             sleep 1
 
-            tmux send-keys -t 3 "ping $INTERFACE_NFP -c 6 | tee /local/mnt/workspace/AVL-tests/results/$CUR_CARD-ping_test_2.txt" C-m
+            tmux send-keys -t 3 "ping $INTERFACE_NFP -c 6 | tee /home/ubuntu/AVL-tests/results/$CUR_CARD-ping_test_2.txt" C-m
 
             wait_text 3 "ping statistics"
 
@@ -804,7 +804,7 @@ else # else $TMUX is not empty, start test.
             sleep 1
 
             #ssh from 2nd DUT to nfp
-            tmux send-keys -t 3 "ssh -i ~/.ssh/netronome_key $INTERFACE_NFP 'dmesg | grep Assembly' > /local/mnt/workspace/AVL-tests/results/$CUR_CARD-ssh_test.txt" C-m
+            tmux send-keys -t 3 "ssh -i ~/.ssh/netronome_key $INTERFACE_NFP 'dmesg | grep Assembly' > /home/ubuntu/AVL-tests/results/$CUR_CARD-ssh_test.txt" C-m
 
             sleep 2
 
@@ -820,11 +820,11 @@ else # else $TMUX is not empty, start test.
 
             echo "5) SCP test"
             
-            tmux send-keys -t 2 "dmesg | grep Assembly > /local/mnt/workspace/AVL-tests/results/$CUR_CARD-dmesg_scp.txt" C-m
+            tmux send-keys -t 2 "dmesg | grep Assembly > /home/ubuntu/AVL-tests/results/$CUR_CARD-dmesg_scp.txt" C-m
 
             #scp from 2nd Dut to nfp
 
-            tmux send-keys -t 3 "scp -i ~/.ssh/netronome_key $INTERFACE_NFP:/local/mnt/workspace/AVL-tests/results/$CUR_CARD-dmesg_scp.txt /local/mnt/workspace/AVL-tests/results/" C-m
+            tmux send-keys -t 3 "scp -i ~/.ssh/netronome_key $INTERFACE_NFP:/home/ubuntu/AVL-tests/results/$CUR_CARD-dmesg_scp.txt /local/mnt/workspace/AVL-tests/results/" C-m
 
             sleep 2
 
@@ -857,8 +857,8 @@ else # else $TMUX is not empty, start test.
             #tmux send-keys -t 2 "iperf -c $INTERFACE_IP -w 2m -l 64k -i 10 -t 30 -P 4 -m | tee /local/mnt/workspace/AVL-tests/results/$CUR_CARD-iperf_test_1.txt" C-m
             #tmux send-keys -t 3 "iperf -s" C-m
 
-            tmux send-keys -t 2 "cd /local/mnt/workspace/AVL-tests/results" C-m
-            tmux send-keys -t 3 "cd /local/mnt/workspace/AVL-tests/results" C-m
+            tmux send-keys -t 2 "cd /home/ubuntu/AVL-tests/results" C-m
+            tmux send-keys -t 3 "cd /home/ubuntu/AVL-tests/results" C-m
 
             tmux send-keys -t 2 "pkill iperf -9" C-m
             tmux send-keys -t 3 "pkill iperf -9" C-m
