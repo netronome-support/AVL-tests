@@ -179,13 +179,13 @@ else # else $TMUX is not empty, start test.
             tmux send-keys -t 2 "mkdir -p logs" C-m
             tmux send-keys -t 3 "mkdir -p logs" C-m
 
-            tmux send-keys -t 2 "/local/mnt/workspace/AVL-tests/copy_ssh_key.sh $IP_DUT2" C-m
-            tmux send-keys -t 3 "/local/mnt/workspace/AVL-tests/copy_ssh_key.sh $IP_ARM" C-m 
+            tmux send-keys -t 2 "/home/ubuntu/AVL-tests/copy_ssh_key.sh $IP_DUT2" C-m
+            tmux send-keys -t 3 "/home/ubuntu/AVL-tests/copy_ssh_key.sh $IP_ARM" C-m 
 
             sleep 2
 
-            scp -i ~/.ssh/netronome_key -r /local/mnt/workspace/AVL-tests/ ubuntu@$IP_ARM:/local/mnt/workspace/
-            scp -i ~/.ssh/netronome_key -r /local/mnt/workspace/AVL-tests/ ubuntu@$IP_DUT2:/local/mnt/workspace/
+            scp -i ~/.ssh/netronome_key -r /local/mnt/workspace/AVL-tests/ ubuntu@$IP_ARM:/home/ubuntu/
+            scp -i ~/.ssh/netronome_key -r /local/mnt/workspace/AVL-tests/ ubuntu@$IP_DUT2:/home/ubuntu/
 
             sleep 1
             
@@ -334,7 +334,7 @@ else # else $TMUX is not empty, start test.
 
                 tmux send-keys -t 2 "dmesg | grep 'nfp .* Assembly' | sed -n 1p | cut -d ':' -f5 | cut -d '-' -f1 | cut -d ' ' -f2 > /local/mnt/workspace/AVL-tests/results/cur_card.txt" C-m
                 sleep 1
-                scp -i ~/.ssh/netronome_key ubuntu@$IP_ARM:/local/mnt/workspace/AVL-tests/results/cur_card.txt /local/mnt/workspace/AVL-tests/results 
+                scp -i ~/.ssh/netronome_key ubuntu@$IP_ARM:/home/ubuntu/AVL-tests/results/cur_card.txt /local/mnt/workspace/AVL-tests/results 
 
                 CARD=$(cat /local/mnt/workspace/AVL-tests/results/cur_card.txt)
 
@@ -407,7 +407,7 @@ else # else $TMUX is not empty, start test.
             
             sleep 2
 
-            scp -i ~/.ssh/netronome_key ubuntu@$IP_ARM:/local/mnt/workspace/AVL-tests/results/$CUR_CARD-ethtool.txt /local/mnt/workspace/AVL-tests/results
+            scp -i ~/.ssh/netronome_key ubuntu@$IP_ARM:/home/ubuntu/AVL-tests/results/$CUR_CARD-ethtool.txt /local/mnt/workspace/AVL-tests/results
 
             sleep 1
 
@@ -427,7 +427,7 @@ else # else $TMUX is not empty, start test.
             
                 tmux send-keys -t 2 "dmesg | grep 'Assembly\|BSP' > /local/mnt/workspace/AVL-tests/results/$CUR_CARD-isa.txt" C-m
                 sleep 2
-                scp -i ~/.ssh/netronome_key ubuntu@$IP_ARM:/local/mnt/workspace/AVL-tests/results/$CUR_CARD-isa.txt /local/mnt/workspace/AVL-tests/results
+                scp -i ~/.ssh/netronome_key ubuntu@$IP_ARM:/home/ubuntu/AVL-tests/results/$CUR_CARD-isa.txt /local/mnt/workspace/AVL-tests/results
                 sleep 1
                 echo "2_done"
             
@@ -482,7 +482,7 @@ else # else $TMUX is not empty, start test.
 
             sleep 1
 
-            scp -i ~/.ssh/netronome_key ubuntu@$IP_ARM:/local/mnt/workspace/AVL-tests/results/$CUR_CARD-ping_test_1.txt /local/mnt/workspace/AVL-tests/results
+            scp -i ~/.ssh/netronome_key ubuntu@$IP_ARM:/home/ubuntu/AVL-tests/results/$CUR_CARD-ping_test_1.txt /local/mnt/workspace/AVL-tests/results
 
             sleep 1
 
@@ -492,7 +492,7 @@ else # else $TMUX is not empty, start test.
 
             sleep 1
 
-            scp -i ~/.ssh/netronome_key ubuntu@$IP_DUT2:/local/mnt/workspace/AVL-tests/results/$CUR_CARD-ping_test_2.txt /local/mnt/workspace/AVL-tests/results
+            scp -i ~/.ssh/netronome_key ubuntu@$IP_DUT2:/home/ubuntu/AVL-tests/results/$CUR_CARD-ping_test_2.txt /local/mnt/workspace/AVL-tests/results
 
 
             echo "Ping test complete"
@@ -517,7 +517,7 @@ else # else $TMUX is not empty, start test.
 
             sleep 2
 
-            scp -i ~/.ssh/netronome_key ubuntu@$IP_DUT2:/local/mnt/workspace/AVL-tests/results/$CUR_CARD-ssh_test.txt /local/mnt/workspace/AVL-tests/results
+            scp -i ~/.ssh/netronome_key ubuntu@$IP_DUT2:/home/ubuntu/AVL-tests/results/$CUR_CARD-ssh_test.txt /local/mnt/workspace/AVL-tests/results
 
             sleep 1
 
@@ -542,7 +542,7 @@ else # else $TMUX is not empty, start test.
 
             sleep 2
 
-            scp -i ~/.ssh/netronome_key ubuntu@$IP_DUT2:/local/mnt/workspace/AVL-tests/results/$CUR_CARD-dmesg_scp.txt /local/mnt/workspace/AVL-tests/results/
+            scp -i ~/.ssh/netronome_key ubuntu@$IP_DUT2:/home/ubuntu/AVL-tests/results/$CUR_CARD-dmesg_scp.txt /local/mnt/workspace/AVL-tests/results/
 
             sleep 1
 
@@ -593,7 +593,7 @@ else # else $TMUX is not empty, start test.
             tmux send-keys -t 3 "pkill iperf -9" C-m
             sleep 1
 
-            scp -i ~/.ssh/netronome_key ubuntu@$IP_ARM:/local/mnt/workspace/AVL-tests/results/$CUR_CARD-IPERF*_1 /local/mnt/workspace/AVL-tests/results
+            scp -i ~/.ssh/netronome_key ubuntu@$IP_ARM:/home/ubuntu/AVL-tests/results/$CUR_CARD-IPERF*_1 /local/mnt/workspace/AVL-tests/results
 
             sleep 5
 
@@ -611,7 +611,7 @@ else # else $TMUX is not empty, start test.
             tmux send-keys -t 3 "pkill iperf -9" C-m
             sleep 1
 
-            scp -i ~/.ssh/netronome_key ubuntu@$IP_DUT2:/local/mnt/workspace/AVL-tests/results/$CUR_CARD-IPERF*_2 /local/mnt/workspace/AVL-tests/results
+            scp -i ~/.ssh/netronome_key ubuntu@$IP_DUT2:/home/ubuntu/AVL-tests/results/$CUR_CARD-IPERF*_2 /local/mnt/workspace/AVL-tests/results
 
             sleep 2
 
@@ -648,7 +648,7 @@ else # else $TMUX is not empty, start test.
             else
                 tmux send-keys -t 2 "dmesg | grep 'nfp .* Assembly' | sed -n 1p | cut -d ':' -f5 | cut -d '-' -f1 | cut -d ' ' -f2 > /local/mnt/workspace/AVL-tests/results/cur_card.txt" C-m
                 sleep 1
-                scp -i ~/.ssh/netronome_key ubuntu@$IP_ARM:/local/mnt/workspace/AVL-tests/results/cur_card.txt /local/mnt/workspace/AVL-tests/results 
+                scp -i ~/.ssh/netronome_key ubuntu@$IP_ARM:/home/ubuntu/AVL-tests/results/cur_card.txt /local/mnt/workspace/AVL-tests/results 
 
                 CARD=$(cat /local/mnt/workspace/AVL-tests/results/cur_card.txt)
 
@@ -713,7 +713,7 @@ else # else $TMUX is not empty, start test.
             
             sleep 2
 
-            scp -i ~/.ssh/netronome_key ubuntu@$IP_ARM:/local/mnt/workspace/AVL-tests/results/$CUR_CARD-ethtool.txt /local/mnt/workspace/AVL-tests/results
+            scp -i ~/.ssh/netronome_key ubuntu@$IP_ARM:/home/ubuntu/AVL-tests/results/$CUR_CARD-ethtool.txt /local/mnt/workspace/AVL-tests/results
 
             sleep 1
             
@@ -733,7 +733,7 @@ else # else $TMUX is not empty, start test.
             
                 tmux send-keys -t 2 "dmesg | grep 'Assembly\|BSP' > /local/mnt/workspace/AVL-tests/results/$CUR_CARD-isa.txt" C-m
                 sleep 2
-                scp -i ~/.ssh/netronome_key ubuntu@$IP_ARM:/local/mnt/workspace/AVL-tests/results/$CUR_CARD-isa.txt /local/mnt/workspace/AVL-tests/results
+                scp -i ~/.ssh/netronome_key ubuntu@$IP_ARM:/home/ubuntu/AVL-tests/results/$CUR_CARD-isa.txt /local/mnt/workspace/AVL-tests/results
                 sleep 1
                 echo "2_done"
 
@@ -774,7 +774,7 @@ else # else $TMUX is not empty, start test.
 
             sleep 1
 
-            scp -i ~/.ssh/netronome_key ubuntu@$IP_ARM:/local/mnt/workspace/AVL-tests/results/$CUR_CARD-ping_test_1.txt /local/mnt/workspace/AVL-tests/results
+            scp -i ~/.ssh/netronome_key ubuntu@$IP_ARM:/home/ubuntu/AVL-tests/results/$CUR_CARD-ping_test_1.txt /local/mnt/workspace/AVL-tests/results
 
             sleep 1
 
@@ -784,7 +784,7 @@ else # else $TMUX is not empty, start test.
 
             sleep 1
 
-            scp -i ~/.ssh/netronome_key ubuntu@$IP_DUT2:/local/mnt/workspace/AVL-tests/results/$CUR_CARD-ping_test_2.txt /local/mnt/workspace/AVL-tests/results
+            scp -i ~/.ssh/netronome_key ubuntu@$IP_DUT2:/home/ubuntu/AVL-tests/results/$CUR_CARD-ping_test_2.txt /local/mnt/workspace/AVL-tests/results
 
 
             echo "Ping test complete"
@@ -808,7 +808,7 @@ else # else $TMUX is not empty, start test.
 
             sleep 2
 
-            scp -i ~/.ssh/netronome_key ubuntu@$IP_DUT2:/local/mnt/workspace/AVL-tests/results/$CUR_CARD-ssh_test.txt /local/mnt/workspace/AVL-tests/results
+            scp -i ~/.ssh/netronome_key ubuntu@$IP_DUT2:/home/ubuntu/AVL-tests/results/$CUR_CARD-ssh_test.txt /local/mnt/workspace/AVL-tests/results
 
             sleep 1
 
@@ -828,7 +828,7 @@ else # else $TMUX is not empty, start test.
 
             sleep 2
 
-            scp -i ~/.ssh/netronome_key ubuntu@$IP_DUT2:/local/mnt/workspace/AVL-tests/results/$CUR_CARD-dmesg_scp.txt /local/mnt/workspace/AVL-tests/results/
+            scp -i ~/.ssh/netronome_key ubuntu@$IP_DUT2:/home/ubuntu/AVL-tests/results/$CUR_CARD-dmesg_scp.txt /local/mnt/workspace/AVL-tests/results/
 
             sleep 1
 
@@ -879,7 +879,7 @@ else # else $TMUX is not empty, start test.
             tmux send-keys -t 3 "pkill iperf -9" C-m
             sleep 1
 
-            scp -i ~/.ssh/netronome_key ubuntu@$IP_ARM:/local/mnt/workspace/AVL-tests/results/"$CUR_CARD-IPERF*" /local/mnt/workspace/AVL-tests/results
+            scp -i ~/.ssh/netronome_key ubuntu@$IP_ARM:/home/ubuntu/AVL-tests/results/"$CUR_CARD-IPERF*" /local/mnt/workspace/AVL-tests/results
 
             sleep 5
 
@@ -897,7 +897,7 @@ else # else $TMUX is not empty, start test.
             tmux send-keys -t 2 "pkill iperf -9" C-m
             tmux send-keys -t 3 "pkill iperf -9" C-m
 
-            scp -i ~/.ssh/netronome_key ubuntu@$IP_DUT2:/local/mnt/workspace/AVL-tests/results/"$CUR_CARD-IPERF*" /local/mnt/workspace/AVL-tests/results
+            scp -i ~/.ssh/netronome_key ubuntu@$IP_DUT2:/home/ubuntu/AVL-tests/results/"$CUR_CARD-IPERF*" /local/mnt/workspace/AVL-tests/results
 
             sleep 2
 
