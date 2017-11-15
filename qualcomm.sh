@@ -172,6 +172,7 @@ else # else $TMUX is not empty, start test.
             tmux send-keys -t 3 "cd" C-m
 
             tmux send-keys -t 2 "clear" C-m
+            sleep 1
             tmux send-keys -t 2 "pwd" C-m
             sleep 1
             export dut_base_dir="$(tmux capture-pane -t "2" -p | head -n 2 | sed '$!d')"
@@ -259,14 +260,14 @@ else # else $TMUX is not empty, start test.
 
             sleep 1
 
-            ls nfp-bsp-6000-b0-dkms_2017.10.05.1604_all.deb 2>/dev/null
-            
-            if [ $? == 2 ]; then
-                packages2=0
-                echo "BSP package missing"
-            else
-                packages2=1
-            fi
+            #ls nfp-bsp-6000-b0-dkms_2017.10.05.1604_all.deb 2>/dev/null
+           # 
+           #if [ $? == 2 ]; then
+           #     packages2=0
+           #     echo "BSP package missing"
+           # else
+           #     packages2=1
+           # fi
 
             sleep 1
 
