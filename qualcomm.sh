@@ -3,14 +3,14 @@
 SESSIONNAME=Qualcomm
 
 #Where scripts reside
-script_dir="$(dirname $(readlink -f $0))"
+export script_dir="$(dirname $(readlink -f $0))"
 
 
 cd $script_dir
 cd ..
 
 #Where AVL-tests folder reside
-base_dir="$(pwd)"
+export base_dir="$(pwd)"
 
 
 

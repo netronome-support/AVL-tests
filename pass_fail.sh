@@ -2,14 +2,14 @@
 #pass_fail.sh
 
 #Where scripts reside
-script_dir="$(dirname $(readlink -f $0))"
+export script_dir="$(dirname $(readlink -f $0))"
 
 
 cd $script_dir
 cd ..
 
 #Where AVL-tests reside
-base_dir="$(pwd)"
+export base_dir="$(pwd)"
 
 #Some colors
 RED='\033[0;31m'

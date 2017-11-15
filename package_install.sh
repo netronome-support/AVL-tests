@@ -13,7 +13,7 @@ if [[ $? -eq 0 ]]; then
   exit 0
 fi 
 
-script_dir="$(dirname $(readlink -f $0))"
+export script_dir="$(dirname $(readlink -f $0))"
 
 cd $script_dir
 cd ..
