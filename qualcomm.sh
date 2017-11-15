@@ -1,7 +1,17 @@
 #!/bin/bash
 
 SESSIONNAME=Qualcomm
+
+#Where scripts reside
 script_dir="$(dirname $(readlink -f $0))"
+
+
+cd $script_dir
+cd ..
+
+#Where AVL-tests folder reside
+base_dir="$(pwd)"
+
 
 
 #Check if TMUX is installed
@@ -76,7 +86,7 @@ then # $TMUX is empty, create/enter tmux session.
         tmux split-window -v -t 0
         tmux split-window -v -t 1
     fi
-    tmux send-keys -t 0 '/local/mnt/workspace/AVL-tests/qualcomm.sh' C-m
+    tmux send-keys -t 0 '$script_dir/qualcomm.sh' C-m
     tmux a -t $SESSIONNAME 
 else # else $TMUX is not empty, start test.
 
@@ -138,20 +148,20 @@ else # else $TMUX is not empty, start test.
             read -p "Enter secondary device back-to-back connection interface IP: " INTERFACE_IP
 
             #Copy n new public key to DUT's
-            /local/mnt/workspace/AVL-tests/copy_ssh_key.sh $IP_ARM $IP_DUT2 
+            $script_dir/copy_ssh_key.sh $IP_ARM $IP_DUT2 
 
-            mkdir -p /local/mnt/workspace/AVL-tests/results
-            mkdir -p /local/mnt/workspace/AVL-tests/results/logs
+            mkdir -p $script_dir/results
+            mkdir -p $script_dir/results/logs
 
-            if [ ! -f /local/mnt/workspace/AVL-tests/results/logs/results.txt ]; then
-                touch /local/mnt/workspace/AVL-tests/results/logs/results.txt
+            if [ ! -f $script_dir/results/logs/results.txt ]; then
+                touch $script_dir/results/logs/results.txt
             fi           
 
             sleep 1
 
             #SSH into DUT's
-            tmux send-keys -t 2 "ssh -i ~/.ssh/netronome_key ubuntu@$IP_ARM" C-m
-            tmux send-keys -t 3 "ssh -i ~/.ssh/netronome_key ubuntu@$IP_DUT2" C-m
+            tmux send-keys -t 2 "ssh -i ~/.ssh/netronome_key root@$IP_ARM" C-m
+            tmux send-keys -t 3 "ssh -i ~/.ssh/netronome_key root@$IP_DUT2" C-m
 
             
             sleep 5
@@ -160,6 +170,11 @@ else # else $TMUX is not empty, start test.
 
             tmux send-keys -t 2 "cd" C-m
             tmux send-keys -t 3 "cd" C-m
+
+
+            tmux send keys -t 2 "pwd" C-m
+            sleep 1
+            dut_base_dir="$(tmux capture-pane -t "2" -p | tail -n 2 | sed -n 1p)"
 
             tmux send-keys -t 2 "rm -r AVL-tests" C-m
             tmux send-keys -t 3 "rm -r AVL-tests" C-m
@@ -179,15 +194,15 @@ else # else $TMUX is not empty, start test.
             tmux send-keys -t 2 "mkdir -p logs" C-m
             tmux send-keys -t 3 "mkdir -p logs" C-m
 
-            tmux send-keys -t 2 "/home/ubuntu/AVL-tests/copy_ssh_key.sh $IP_DUT2" C-m
-            tmux send-keys -t 3 "/home/ubuntu/AVL-tests/copy_ssh_key.sh $IP_ARM" C-m 
-
             sleep 2
 
-            scp -i ~/.ssh/netronome_key -r /local/mnt/workspace/AVL-tests/ ubuntu@$IP_ARM:/home/ubuntu/
-            scp -i ~/.ssh/netronome_key -r /local/mnt/workspace/AVL-tests/ ubuntu@$IP_DUT2:/home/ubuntu/
+            scp -i ~/.ssh/netronome_key -r $script_dir/ root@$IP_ARM:$dut_base_dir/
+            scp -i ~/.ssh/netronome_key -r $script_dir/ root@$IP_DUT2:$dut_base_dir/
 
-            sleep 1
+            sleep 10
+
+            tmux send-keys -t 2 "$dut_base_dir/AVL-tests/copy_ssh_key.sh $IP_DUT2" C-m
+            tmux send-keys -t 3 "$dut_base_dir/AVL-tests/copy_ssh_key.sh $IP_ARM" C-m 
             
             DUT_CONNECT=1
 
@@ -216,7 +231,7 @@ else # else $TMUX is not empty, start test.
                 continue
             fi
 
-            cd
+            cd $base_dir
 
             echo "Installing CoreNIC...."
 
@@ -268,7 +283,7 @@ else # else $TMUX is not empty, start test.
 
 
             if [[ "$packages" == "0" ]] || [[ "$packages1" == "0" ]] || [[ "$packages2" == "0" ]] || [[ "$packages3" == "0" ]]; then
-                echo -e "${RED}Please copy the CoreNIC & BSP packages to /root directory of this machine${NC}"
+                echo -e "${RED}Please copy the CoreNIC & BSP packages to the same directory as the AVL-test folder of this machine${NC}"
                 echo ""
                 echo "The packages can be downloaded from support.netronome.com"
                 echo "Names: "
@@ -280,20 +295,20 @@ else # else $TMUX is not empty, start test.
             
             else
                 sleep 1
-                scp -i ~/.ssh/netronome_key nfp-bsp-6000-b0*.* ubuntu@$IP_ARM:/local/mnt/workspace/
+                scp -i ~/.ssh/netronome_key nfp-bsp-6000-b0*.* root@$IP_ARM:$dut_base_dir/
                 sleep 1
-                scp -i ~/.ssh/netronome_key ns-agilio-core-nic*.* ubuntu@$IP_ARM:/local/mnt/workspace/
+                scp -i ~/.ssh/netronome_key ns-agilio-core-nic*.* root@$IP_ARM:$dut_base_dir/
                 sleep 1
 
-                scp -i ~/.ssh/netronome_key nfp-bsp-6000-b0*.* ubuntu@$IP_DUT2:/local/mnt/workspace/
+                scp -i ~/.ssh/netronome_key nfp-bsp-6000-b0*.* root@$IP_DUT2:$dut_base_dir/
                 sleep 1
-                scp -i ~/.ssh/netronome_key ns-agilio-core-nic*.* ubuntu@$IP_DUT2:/local/mnt/workspace/
+                scp -i ~/.ssh/netronome_key ns-agilio-core-nic*.* root@$IP_DUT2:$dut_base_dir/
                 sleep 1
 
                 sleep 3
 
-                tmux send-keys -t 2 "/home/ubuntu/AVL-tests/package_install.sh" C-m
-                tmux send-keys -t 3 "/home/ubuntu/AVL-tests/package_install.sh" C-m
+                tmux send-keys -t 2 "$dut_base_dir/AVL-tests/package_install.sh" C-m
+                tmux send-keys -t 3 "$dut_base_dir/AVL-tests/package_install.sh" C-m
 
 
                 wait_text 2 "DONE(package_install.sh)"
@@ -332,11 +347,11 @@ else # else $TMUX is not empty, start test.
 
 
 
-                tmux send-keys -t 2 "dmesg | grep 'nfp .* Assembly' | sed -n 1p | cut -d ':' -f5 | cut -d '-' -f1 | cut -d ' ' -f2 > /home/ubuntu/AVL-tests/results/cur_card.txt" C-m
+                tmux send-keys -t 2 "dmesg | grep 'nfp .* Assembly' | sed -n 1p | cut -d ':' -f5 | cut -d '-' -f1 | cut -d ' ' -f2 > $dut_base_dir/AVL-tests/results/cur_card.txt" C-m
                 sleep 1
-                scp -i ~/.ssh/netronome_key ubuntu@$IP_ARM:/home/ubuntu/AVL-tests/results/cur_card.txt /local/mnt/workspace/AVL-tests/results 
+                scp -i ~/.ssh/netronome_key root@$IP_ARM:$dut_base_dir/AVL-tests/results/cur_card.txt $script_dir/results 
 
-                CARD=$(cat /local/mnt/workspace/AVL-tests/results/cur_card.txt)
+                CARD=$(cat $script_dir/results/cur_card.txt)
 
                 if [[ $CARD == *"97" ]]; then
                     echo "Current card: Beryllium - 2x40GbE"
@@ -383,7 +398,7 @@ else # else $TMUX is not empty, start test.
             sleep 1
             tmux send-keys -t 3 "ip link set $DUT2_INT up" C-m
 
-            pci_a=$(ssh -i ~/.ssh/netronome_key ubuntu@$IP_ARM lspci -d 19ee: | cut -d ' ' -f1 | sed -n 1p)
+            pci_a=$(ssh -i ~/.ssh/netronome_key root@$IP_ARM lspci -d 19ee: | cut -d ' ' -f1 | sed -n 1p)
             sleep 1
 
             if [[ "$pci_a" == *":"*":"*"."* ]]; then 
@@ -395,7 +410,7 @@ else # else $TMUX is not empty, start test.
 
             sleep 1
             
-            PHY1=$(ssh -i ~/.ssh/netronome_key ubuntu@$IP_ARM ls /sys/bus/pci/devices/$pci_a/net | sed -n 1p)
+            PHY1=$(ssh -i ~/.ssh/netronome_key root@$IP_ARM ls /sys/bus/pci/devices/$pci_a/net | sed -n 1p)
             
             sleep 1
             
@@ -403,11 +418,11 @@ else # else $TMUX is not empty, start test.
 
             sleep 5
 
-            tmux send-keys -t 2 "ethtool $PHY1 > /home/ubuntu/AVL-tests/results/$CUR_CARD-ethtool.txt" C-m
+            tmux send-keys -t 2 "ethtool $PHY1 > $dut_base_dir/AVL-tests/results/$CUR_CARD-ethtool.txt" C-m
             
             sleep 2
 
-            scp -i ~/.ssh/netronome_key ubuntu@$IP_ARM:/home/ubuntu/AVL-tests/results/$CUR_CARD-ethtool.txt /local/mnt/workspace/AVL-tests/results
+            scp -i ~/.ssh/netronome_key root@$IP_ARM:$dut_base_dir/AVL-tests/results/$CUR_CARD-ethtool.txt $script_dir/results
 
             sleep 1
 
@@ -425,9 +440,9 @@ else # else $TMUX is not empty, start test.
                 continue
             fi
             
-                tmux send-keys -t 2 "dmesg | grep 'Assembly\|BSP' > /home/ubuntu/AVL-tests/results/$CUR_CARD-isa.txt" C-m
+                tmux send-keys -t 2 "dmesg | grep 'Assembly\|BSP' > $dut_base_dir/AVL-tests/results/$CUR_CARD-isa.txt" C-m
                 sleep 2
-                scp -i ~/.ssh/netronome_key ubuntu@$IP_ARM:/home/ubuntu/AVL-tests/results/$CUR_CARD-isa.txt /local/mnt/workspace/AVL-tests/results
+                scp -i ~/.ssh/netronome_key root@$IP_ARM:$dut_base_dir/AVL-tests/results/$CUR_CARD-isa.txt $script_dir/results
                 sleep 1
                 echo "2_done"
             
@@ -465,7 +480,7 @@ else # else $TMUX is not empty, start test.
 
             tmux send-keys -t 2 "cd" C-m
 
-            tmux send-keys -t 2 "/home/ubuntu/AVL-tests/ping_test.sh $INTERFACE_NFP" C-m
+            tmux send-keys -t 2 "$dut_base_dir/AVL-tests/ping_test.sh $INTERFACE_NFP" C-m
             
             echo -e "${GREEN}* Setting up ping test${NC}"
             
@@ -476,23 +491,23 @@ else # else $TMUX is not empty, start test.
             
 
 
-            tmux send-keys -t 2 "ping $INTERFACE_IP -c 6 | tee /home/ubuntu/AVL-tests/results/$CUR_CARD-ping_test_1.txt" C-m
+            tmux send-keys -t 2 "ping $INTERFACE_IP -c 6 | tee $dut_base_dir/AVL-tests/results/$CUR_CARD-ping_test_1.txt" C-m
 
             wait_text 2 "ping statistics"
 
             sleep 1
 
-            scp -i ~/.ssh/netronome_key ubuntu@$IP_ARM:/home/ubuntu/AVL-tests/results/$CUR_CARD-ping_test_1.txt /local/mnt/workspace/AVL-tests/results
+            scp -i ~/.ssh/netronome_key root@$IP_ARM:$dut_base_dir/AVL-tests/results/$CUR_CARD-ping_test_1.txt $script_dir/results
 
             sleep 1
 
-            tmux send-keys -t 3 "ping $INTERFACE_NFP -c 6 | tee /home/ubuntu/AVL-tests/results/$CUR_CARD-ping_test_2.txt" C-m
+            tmux send-keys -t 3 "ping $INTERFACE_NFP -c 6 | tee $dut_base_dir/AVL-tests/results/$CUR_CARD-ping_test_2.txt" C-m
 
             wait_text 3 "ping statistics"
 
             sleep 1
 
-            scp -i ~/.ssh/netronome_key ubuntu@$IP_DUT2:/home/ubuntu/AVL-tests/results/$CUR_CARD-ping_test_2.txt /local/mnt/workspace/AVL-tests/results
+            scp -i ~/.ssh/netronome_key root@$IP_DUT2:$dut_base_dir/AVL-tests/results/$CUR_CARD-ping_test_2.txt $script_dir/results
 
 
             echo "Ping test complete"
@@ -513,11 +528,11 @@ else # else $TMUX is not empty, start test.
             fi            
             
             #ssh from 2nd DUT to nfp
-            tmux send-keys -t 3 "ssh -i ~/.ssh/netronome_key $INTERFACE_NFP 'dmesg | grep Assembly' > /home/ubuntu/AVL-tests/results/$CUR_CARD-ssh_test.txt" C-m
+            tmux send-keys -t 3 "ssh -i ~/.ssh/netronome_key $INTERFACE_NFP 'dmesg | grep Assembly' > $dut_base_dir/AVL-tests/results/$CUR_CARD-ssh_test.txt" C-m
 
             sleep 2
 
-            scp -i ~/.ssh/netronome_key ubuntu@$IP_DUT2:/home/ubuntu/AVL-tests/results/$CUR_CARD-ssh_test.txt /local/mnt/workspace/AVL-tests/results
+            scp -i ~/.ssh/netronome_key root@$IP_DUT2:$dut_base_dir/AVL-tests/results/$CUR_CARD-ssh_test.txt $script_dir/results
 
             sleep 1
 
@@ -534,15 +549,15 @@ else # else $TMUX is not empty, start test.
                 continue
             fi
             
-            tmux send-keys -t 2 "dmesg | grep Assembly > /home/ubuntu/AVL-tests/results/$CUR_CARD-dmesg_scp.txt" C-m
+            tmux send-keys -t 2 "dmesg | grep Assembly > $dut_base_dir/AVL-tests/results/$CUR_CARD-dmesg_scp.txt" C-m
 
             #scp from 2nd Dut to nfp
 
-            tmux send-keys -t 3 "scp -i ~/.ssh/netronome_key $INTERFACE_NFP:/home/ubuntu/AVL-tests/results/$CUR_CARD-dmesg_scp.txt /local/mnt/workspace/AVL-tests/results" C-m
+            tmux send-keys -t 3 "scp -i ~/.ssh/netronome_key $INTERFACE_NFP:$dut_base_dir/AVL-tests/results/$CUR_CARD-dmesg_scp.txt $script_dir/results" C-m
 
             sleep 2
 
-            scp -i ~/.ssh/netronome_key ubuntu@$IP_DUT2:/home/ubuntu/AVL-tests/results/$CUR_CARD-dmesg_scp.txt /local/mnt/workspace/AVL-tests/results/
+            scp -i ~/.ssh/netronome_key root@$IP_DUT2:$dut_base_dir/AVL-tests/results/$CUR_CARD-dmesg_scp.txt $script_dir/results/
 
             sleep 1
 
@@ -570,15 +585,15 @@ else # else $TMUX is not empty, start test.
             tmux send-keys -t 3 "ifconfig $DUT2_INT mtu 9000" C-m
 
             #OLD Commands
-            #tmux send-keys -t 2 "iperf -c $INTERFACE_IP -w 2m -l 64k -i 10 -t 30 -P 4 -m | tee /local/mnt/workspace/AVL-tests/results/$CUR_CARD-iperf_test_1.txt" C-m
+            #tmux send-keys -t 2 "iperf -c $INTERFACE_IP -w 2m -l 64k -i 10 -t 30 -P 4 -m | tee $script_dir/results/$CUR_CARD-iperf_test_1.txt" C-m
             #tmux send-keys -t 3 "iperf -s" C-m
 
             tmux send-keys -t 2 "pkill iperf -9" C-m
             tmux send-keys -t 3 "pkill iperf -9" C-m
             sleep 1
 
-            tmux send-keys -t 2 "cd /home/ubuntu/AVL-tests/results" C-m
-            tmux send-keys -t 3 "cd /home/ubuntu/AVL-tests/results" C-m
+            tmux send-keys -t 2 "cd $dut_base_dir/AVL-tests/results" C-m
+            tmux send-keys -t 3 "cd $dut_base_dir/AVL-tests/results" C-m
 
             tmux send-keys -t 3 "iperf3 -s -p10 & iperf3 -s -p11 & iperf3 -s -p12 & iperf3 -s -p13 &" C-m
             sleep 1
@@ -593,7 +608,7 @@ else # else $TMUX is not empty, start test.
             tmux send-keys -t 3 "pkill iperf -9" C-m
             sleep 1
 
-            scp -i ~/.ssh/netronome_key ubuntu@$IP_ARM:/home/ubuntu/AVL-tests/results/$CUR_CARD-IPERF*_1 /local/mnt/workspace/AVL-tests/results
+            scp -i ~/.ssh/netronome_key root@$IP_ARM:$dut_base_dir/AVL-tests/results/$CUR_CARD-IPERF*_1 $script_dir/results
 
             sleep 5
 
@@ -611,7 +626,7 @@ else # else $TMUX is not empty, start test.
             tmux send-keys -t 3 "pkill iperf -9" C-m
             sleep 1
 
-            scp -i ~/.ssh/netronome_key ubuntu@$IP_DUT2:/home/ubuntu/AVL-tests/results/$CUR_CARD-IPERF*_2 /local/mnt/workspace/AVL-tests/results
+            scp -i ~/.ssh/netronome_key root@$IP_DUT2:$dut_base_dir/AVL-tests/results/$CUR_CARD-IPERF*_2 $script_dir/results
 
             sleep 2
 
@@ -646,11 +661,11 @@ else # else $TMUX is not empty, start test.
                 echo "Please install CoreNIC package first"
                 sleep 3
             else
-                tmux send-keys -t 2 "dmesg | grep 'nfp .* Assembly' | sed -n 1p | cut -d ':' -f5 | cut -d '-' -f1 | cut -d ' ' -f2 > /home/ubuntu/AVL-tests/results/cur_card.txt" C-m
+                tmux send-keys -t 2 "dmesg | grep 'nfp .* Assembly' | sed -n 1p | cut -d ':' -f5 | cut -d '-' -f1 | cut -d ' ' -f2 > $dut_base_dir/AVL-tests/results/cur_card.txt" C-m
                 sleep 1
-                scp -i ~/.ssh/netronome_key ubuntu@$IP_ARM:/home/ubuntu/AVL-tests/results/cur_card.txt /local/mnt/workspace/AVL-tests/results 
+                scp -i ~/.ssh/netronome_key root@$IP_ARM:$dut_base_dir/AVL-tests/results/cur_card.txt $script_dir/results 
 
-                CARD=$(cat /local/mnt/workspace/AVL-tests/results/cur_card.txt)
+                CARD=$(cat $script_dir/results/cur_card.txt)
 
                 if [[ $CARD == *"97" ]]; then
                     echo "Current card: Beryllium - 2x40GbE"
@@ -689,7 +704,7 @@ else # else $TMUX is not empty, start test.
             sleep 1
             tmux send-keys -t 3 "ip link set $DUT2_INT up" C-m
 
-            pci_a=$(ssh -i ~/.ssh/netronome_key ubuntu@$IP_ARM lspci -d 19ee: | cut -d ' ' -f1 | sed -n 1p)
+            pci_a=$(ssh -i ~/.ssh/netronome_key root@$IP_ARM lspci -d 19ee: | cut -d ' ' -f1 | sed -n 1p)
             sleep 1
 
             if [[ "$pci_a" == *":"*":"*"."* ]]; then 
@@ -701,7 +716,7 @@ else # else $TMUX is not empty, start test.
 
             sleep 1
             
-            PHY1=$(ssh -i ~/.ssh/netronome_key ubuntu@$IP_ARM ls /sys/bus/pci/devices/$pci_a/net | sed -n 1p)
+            PHY1=$(ssh -i ~/.ssh/netronome_key root@$IP_ARM ls /sys/bus/pci/devices/$pci_a/net | sed -n 1p)
             
             sleep 1
             
@@ -709,11 +724,11 @@ else # else $TMUX is not empty, start test.
 
             sleep 5
 
-            tmux send-keys -t 2 "ethtool $PHY1 > /home/ubuntu/AVL-tests/results/$CUR_CARD-ethtool.txt" C-m
+            tmux send-keys -t 2 "ethtool $PHY1 > $dut_base_dir/AVL-tests/results/$CUR_CARD-ethtool.txt" C-m
             
             sleep 2
 
-            scp -i ~/.ssh/netronome_key ubuntu@$IP_ARM:/home/ubuntu/AVL-tests/results/$CUR_CARD-ethtool.txt /local/mnt/workspace/AVL-tests/results
+            scp -i ~/.ssh/netronome_key root@$IP_ARM:$dut_base_dir/AVL-tests/results/$CUR_CARD-ethtool.txt $script_dir/results
 
             sleep 1
             
@@ -731,9 +746,9 @@ else # else $TMUX is not empty, start test.
                 continue
             fi
             
-                tmux send-keys -t 2 "dmesg | grep 'Assembly\|BSP' > /home/ubuntu/AVL-tests/results/$CUR_CARD-isa.txt" C-m
+                tmux send-keys -t 2 "dmesg | grep 'Assembly\|BSP' > $dut_base_dir/AVL-tests/results/$CUR_CARD-isa.txt" C-m
                 sleep 2
-                scp -i ~/.ssh/netronome_key ubuntu@$IP_ARM:/home/ubuntu/AVL-tests/results/$CUR_CARD-isa.txt /local/mnt/workspace/AVL-tests/results
+                scp -i ~/.ssh/netronome_key root@$IP_ARM:$dut_base_dir/AVL-tests/results/$CUR_CARD-isa.txt $script_dir/results
                 sleep 1
                 echo "2_done"
 
@@ -760,7 +775,7 @@ else # else $TMUX is not empty, start test.
 
             tmux send-keys -t 2 "cd" C-m
 
-            tmux send-keys -t 2 "/home/ubuntu/AVL-tests/ping_test.sh $INTERFACE_NFP" C-m
+            tmux send-keys -t 2 "$dut_base_dir/AVL-tests/ping_test.sh $INTERFACE_NFP" C-m
             
             echo -e "${GREEN}* Setting up ping test${NC}"
             
@@ -768,23 +783,23 @@ else # else $TMUX is not empty, start test.
 
             echo -e "${GREEN}* Running test case 1 - Simple ping${NC}"
 
-            tmux send-keys -t 2 "ping $INTERFACE_IP -c 6 | tee /home/ubuntu/AVL-tests/results/$CUR_CARD-ping_test_1.txt" C-m
+            tmux send-keys -t 2 "ping $INTERFACE_IP -c 6 | tee $dut_base_dir/AVL-tests/results/$CUR_CARD-ping_test_1.txt" C-m
 
             wait_text 2 "ping statistics"
 
             sleep 1
 
-            scp -i ~/.ssh/netronome_key ubuntu@$IP_ARM:/home/ubuntu/AVL-tests/results/$CUR_CARD-ping_test_1.txt /local/mnt/workspace/AVL-tests/results
+            scp -i ~/.ssh/netronome_key root@$IP_ARM:$dut_base_dir/AVL-tests/results/$CUR_CARD-ping_test_1.txt $script_dir/results
 
             sleep 1
 
-            tmux send-keys -t 3 "ping $INTERFACE_NFP -c 6 | tee /home/ubuntu/AVL-tests/results/$CUR_CARD-ping_test_2.txt" C-m
+            tmux send-keys -t 3 "ping $INTERFACE_NFP -c 6 | tee $dut_base_dir/AVL-tests/results/$CUR_CARD-ping_test_2.txt" C-m
 
             wait_text 3 "ping statistics"
 
             sleep 1
 
-            scp -i ~/.ssh/netronome_key ubuntu@$IP_DUT2:/home/ubuntu/AVL-tests/results/$CUR_CARD-ping_test_2.txt /local/mnt/workspace/AVL-tests/results
+            scp -i ~/.ssh/netronome_key root@$IP_DUT2:$dut_base_dir/AVL-tests/results/$CUR_CARD-ping_test_2.txt $script_dir/results
 
 
             echo "Ping test complete"
@@ -804,11 +819,11 @@ else # else $TMUX is not empty, start test.
             sleep 1
 
             #ssh from 2nd DUT to nfp
-            tmux send-keys -t 3 "ssh -i ~/.ssh/netronome_key $INTERFACE_NFP 'dmesg | grep Assembly' > /home/ubuntu/AVL-tests/results/$CUR_CARD-ssh_test.txt" C-m
+            tmux send-keys -t 3 "ssh -i ~/.ssh/netronome_key $INTERFACE_NFP 'dmesg | grep Assembly' > $dut_base_dir/AVL-tests/results/$CUR_CARD-ssh_test.txt" C-m
 
             sleep 2
 
-            scp -i ~/.ssh/netronome_key ubuntu@$IP_DUT2:/home/ubuntu/AVL-tests/results/$CUR_CARD-ssh_test.txt /local/mnt/workspace/AVL-tests/results
+            scp -i ~/.ssh/netronome_key root@$IP_DUT2:$dut_base_dir/AVL-tests/results/$CUR_CARD-ssh_test.txt $script_dir/results
 
             sleep 1
 
@@ -820,15 +835,15 @@ else # else $TMUX is not empty, start test.
 
             echo "5) SCP test"
             
-            tmux send-keys -t 2 "dmesg | grep Assembly > /home/ubuntu/AVL-tests/results/$CUR_CARD-dmesg_scp.txt" C-m
+            tmux send-keys -t 2 "dmesg | grep Assembly > $dut_base_dir/AVL-tests/results/$CUR_CARD-dmesg_scp.txt" C-m
 
             #scp from 2nd Dut to nfp
 
-            tmux send-keys -t 3 "scp -i ~/.ssh/netronome_key $INTERFACE_NFP:/home/ubuntu/AVL-tests/results/$CUR_CARD-dmesg_scp.txt /local/mnt/workspace/AVL-tests/results/" C-m
+            tmux send-keys -t 3 "scp -i ~/.ssh/netronome_key $INTERFACE_NFP:$dut_base_dir/AVL-tests/results/$CUR_CARD-dmesg_scp.txt $script_dir/results/" C-m
 
             sleep 2
 
-            scp -i ~/.ssh/netronome_key ubuntu@$IP_DUT2:/home/ubuntu/AVL-tests/results/$CUR_CARD-dmesg_scp.txt /local/mnt/workspace/AVL-tests/results/
+            scp -i ~/.ssh/netronome_key root@$IP_DUT2:$dut_base_dir/AVL-tests/results/$CUR_CARD-dmesg_scp.txt $script_dir/results/
 
             sleep 1
 
@@ -854,11 +869,11 @@ else # else $TMUX is not empty, start test.
             tmux send-keys -t 3 "ifconfig $DUT2_INT mtu 9000" C-m
 
             #OLD Commands
-            #tmux send-keys -t 2 "iperf -c $INTERFACE_IP -w 2m -l 64k -i 10 -t 30 -P 4 -m | tee /local/mnt/workspace/AVL-tests/results/$CUR_CARD-iperf_test_1.txt" C-m
+            #tmux send-keys -t 2 "iperf -c $INTERFACE_IP -w 2m -l 64k -i 10 -t 30 -P 4 -m | tee $script_dir/results/$CUR_CARD-iperf_test_1.txt" C-m
             #tmux send-keys -t 3 "iperf -s" C-m
 
-            tmux send-keys -t 2 "cd /home/ubuntu/AVL-tests/results" C-m
-            tmux send-keys -t 3 "cd /home/ubuntu/AVL-tests/results" C-m
+            tmux send-keys -t 2 "cd $dut_base_dir/AVL-tests/results" C-m
+            tmux send-keys -t 3 "cd $dut_base_dir/AVL-tests/results" C-m
 
             tmux send-keys -t 2 "pkill iperf -9" C-m
             tmux send-keys -t 3 "pkill iperf -9" C-m
@@ -879,7 +894,7 @@ else # else $TMUX is not empty, start test.
             tmux send-keys -t 3 "pkill iperf -9" C-m
             sleep 1
 
-            scp -i ~/.ssh/netronome_key ubuntu@$IP_ARM:/home/ubuntu/AVL-tests/results/"$CUR_CARD-IPERF*" /local/mnt/workspace/AVL-tests/results
+            scp -i ~/.ssh/netronome_key root@$IP_ARM:$dut_base_dir/AVL-tests/results/"$CUR_CARD-IPERF*" $script_dir/results
 
             sleep 5
 
@@ -897,7 +912,7 @@ else # else $TMUX is not empty, start test.
             tmux send-keys -t 2 "pkill iperf -9" C-m
             tmux send-keys -t 3 "pkill iperf -9" C-m
 
-            scp -i ~/.ssh/netronome_key ubuntu@$IP_DUT2:/home/ubuntu/AVL-tests/results/"$CUR_CARD-IPERF*" /local/mnt/workspace/AVL-tests/results
+            scp -i ~/.ssh/netronome_key root@$IP_DUT2:$dut_base_dir/AVL-tests/results/"$CUR_CARD-IPERF*" $script_dir/results
 
             sleep 2
 
@@ -908,14 +923,14 @@ else # else $TMUX is not empty, start test.
             #-------------------------------------------------------------
             #   p) Show Results
             #-------------------------------------------------------------
-            /local/mnt/workspace/AVL-tests/pass_fail.sh
+            $script_dir/pass_fail.sh
 
             sleep 1
 
             clear
             echo ""
             echo ""
-            cat /local/mnt/workspace/AVL-tests/results/logs/results.txt | sed -r 's/[,]+/\t/g'
+            cat $script_dir/results/logs/results.txt | sed -r 's/[,]+/\t/g'
             echo ""
             echo ""
             echo "$CUR_CARD done"
@@ -923,7 +938,7 @@ else # else $TMUX is not empty, start test.
 
             sleep 10
 
-            sed -i '/None/d' /local/mnt/workspace/AVL-tests/results/logs/results.txt
+            sed -i '/None/d' $script_dir/results/logs/results.txt
 
             ;;
 
@@ -931,7 +946,7 @@ else # else $TMUX is not empty, start test.
             
             sleep 1
 
-            /local/mnt/workspace/AVL-tests/pass_fail.sh
+            $script_dir/pass_fail.sh
 
             sleep 1
 
@@ -940,11 +955,11 @@ else # else $TMUX is not empty, start test.
             clear
             echo ""
             echo ""
-            cat /local/mnt/workspace/AVL-tests/results/logs/results.txt | sed -r 's/[,]+/\t/g'
+            cat $script_dir/results/logs/results.txt | sed -r 's/[,]+/\t/g'
 
             sleep 10
 
-            sed -i '/None/d' /local/mnt/workspace/AVL-tests/results/logs/results.txt
+            sed -i '/None/d' $script_dir/results/logs/results.txt
 
 
             ;;
@@ -957,12 +972,12 @@ else # else $TMUX is not empty, start test.
                 continue
             fi
             
-            /local/mnt/workspace/AVL-tests/log.sh $IP_ARM $IP_DUT2
+            $script_dir/log.sh $IP_ARM $IP_DUT2
             sleep 2
 
             echo ""
             echo ""
-            echo "PLEASE FIND RESULTS IN /local/mnt/workspace/AVL-tests/results/logs/"
+            echo "PLEASE FIND RESULTS IN $script_dir/results/logs/"
             echo "Import them as decribed in the Results spreadsheet provided."
             echo ""
             sleep 5

@@ -15,7 +15,9 @@ fi
 
 script_dir="$(dirname $(readlink -f $0))"
 
-cd
+cd $script_dir
+cd ..
+
 
 #Check if AOVS is installed, uninstall if present
 if [ -z ${NS_SDN_REVISION+x} ]; then

@@ -1,14 +1,24 @@
 #!/bin/bash
 #pass_fail.sh
 
+#Where scripts reside
+script_dir="$(dirname $(readlink -f $0))"
+
+
+cd $script_dir
+cd ..
+
+#Where AVL-tests reside
+base_dir="$(pwd)"
+
 #Some colors
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 NC='\033[0m' # No Color
 
-cd /local/mnt/workspace/AVL-tests
+cd $base_dir/AVL-tests
 
-CARD=$(cat /local/mnt/workspace/AVL-tests/results/cur_card.txt)
+CARD=$(cat $base_dir/AVL-tests/results/cur_card.txt)
 
 if [[ $CARD == *"97" ]]; then
     echo "Current card: Beryllium - 2x40GbE"
@@ -46,7 +56,7 @@ fi
 
 echo "Current card: $CUR_CARD"
 # ethool
-speed=$(cat /local/mnt/workspace/AVL-tests/results/$CUR_CARD-ethtool.txt | grep Speed: | cut -d ':' -f2 | cut -d ' ' -f2)
+speed=$(cat $base_dir/AVL-tests/results/$CUR_CARD-ethtool.txt | grep Speed: | cut -d ':' -f2 | cut -d ' ' -f2)
 #echo $speed
 
 sleep 1
@@ -83,9 +93,9 @@ fi
 
 #ISA
 
-isa_line1=$(cat /local/mnt/workspace/AVL-tests/results/$CUR_CARD-isa.txt | grep Assembly)
+isa_line1=$(cat $base_dir/AVL-tests/results/$CUR_CARD-isa.txt | grep Assembly)
 #echo $isa_line1
-isa_line2=$(cat /local/mnt/workspace/AVL-tests/results/$CUR_CARD-isa.txt | grep BSP)
+isa_line2=$(cat $base_dir/AVL-tests/results/$CUR_CARD-isa.txt | grep BSP)
 #echo $isa_line2
 
 if [ ! -z "$isa_line1" ] && [ ! -z "$isa_line2" ]; then
@@ -98,8 +108,8 @@ fi
 
 #ping test 
 
-ping_1=$( cat /local/mnt/workspace/AVL-tests/results/$CUR_CARD-ping_test_1.txt | grep 'packet loss' | cut -d ',' -f 3 | cut -d '%' -f 1)
-ping_2=$( cat /local/mnt/workspace/AVL-tests/results/$CUR_CARD-ping_test_2.txt | grep 'packet loss' | cut -d ',' -f 3 | cut -d '%' -f 1)
+ping_1=$( cat $base_dir/AVL-tests/results/$CUR_CARD-ping_test_1.txt | grep 'packet loss' | cut -d ',' -f 3 | cut -d '%' -f 1)
+ping_2=$( cat $base_dir/AVL-tests/results/$CUR_CARD-ping_test_2.txt | grep 'packet loss' | cut -d ',' -f 3 | cut -d '%' -f 1)
 
 #echo $ping_1
 #echo $ping_2
@@ -117,7 +127,7 @@ fi
 #echo "PING $ping"
 
 #ssh test
-ssh_line=$(cat /local/mnt/workspace/AVL-tests/results/$CUR_CARD-ssh_test.txt)
+ssh_line=$(cat $base_dir/AVL-tests/results/$CUR_CARD-ssh_test.txt)
 #echo $ssh_line
 
 if [[ -z "$ssh_line" ]]; then
@@ -128,7 +138,7 @@ fi
 
 #scp tesst
 
-scp_line=$(cat /local/mnt/workspace/AVL-tests/results/$CUR_CARD-dmesg_scp.txt)
+scp_line=$(cat $base_dir/AVL-tests/results/$CUR_CARD-dmesg_scp.txt)
 
 if [[ -z "$scp_line" ]]; then
     scp="fail"
@@ -141,22 +151,22 @@ fi
 
 #perf test
 
-one1=$(cat /local/mnt/workspace/AVL-tests/results/$CUR_CARD-IPERF10_1 | grep SUM | sed '$!d' | sed 's/^.*GBytes //' | cut -d 'G' -f1)
-one2=$(cat /local/mnt/workspace/AVL-tests/results/$CUR_CARD-IPERF11_1 | grep SUM | sed '$!d' | sed 's/^.*GBytes //' | cut -d 'G' -f1)
-one3=$(cat /local/mnt/workspace/AVL-tests/results/$CUR_CARD-IPERF12_1 | grep SUM | sed '$!d' | sed 's/^.*GBytes //' | cut -d 'G' -f1)
-one4=$(cat /local/mnt/workspace/AVL-tests/results/$CUR_CARD-IPERF13_1 | grep SUM | sed '$!d' | sed 's/^.*GBytes //' | cut -d 'G' -f1)
+one1=$(cat $base_dir/AVL-tests/results/$CUR_CARD-IPERF10_1 | grep SUM | sed '$!d' | sed 's/^.*GBytes //' | cut -d 'G' -f1)
+one2=$(cat $base_dir/AVL-tests/results/$CUR_CARD-IPERF11_1 | grep SUM | sed '$!d' | sed 's/^.*GBytes //' | cut -d 'G' -f1)
+one3=$(cat $base_dir/AVL-tests/results/$CUR_CARD-IPERF12_1 | grep SUM | sed '$!d' | sed 's/^.*GBytes //' | cut -d 'G' -f1)
+one4=$(cat $base_dir/AVL-tests/results/$CUR_CARD-IPERF13_1 | grep SUM | sed '$!d' | sed 's/^.*GBytes //' | cut -d 'G' -f1)
 
 one_a=$(echo "($one1 + $one2 + $one3 + $one4)" | bc -l)
 
-two1=$(cat /local/mnt/workspace/AVL-tests/results/$CUR_CARD-IPERF10_2 | grep SUM | sed '$!d' | sed 's/^.*GBytes //' | cut -d 'G' -f1)
-two2=$(cat /local/mnt/workspace/AVL-tests/results/$CUR_CARD-IPERF11_2 | grep SUM | sed '$!d' | sed 's/^.*GBytes //' | cut -d 'G' -f1)
-two3=$(cat /local/mnt/workspace/AVL-tests/results/$CUR_CARD-IPERF12_2 | grep SUM | sed '$!d' | sed 's/^.*GBytes //' | cut -d 'G' -f1)
-two4=$(cat /local/mnt/workspace/AVL-tests/results/$CUR_CARD-IPERF13_2 | grep SUM | sed '$!d' | sed 's/^.*GBytes //' | cut -d 'G' -f1)
+two1=$(cat $base_dir/AVL-tests/results/$CUR_CARD-IPERF10_2 | grep SUM | sed '$!d' | sed 's/^.*GBytes //' | cut -d 'G' -f1)
+two2=$(cat $base_dir/AVL-tests/results/$CUR_CARD-IPERF11_2 | grep SUM | sed '$!d' | sed 's/^.*GBytes //' | cut -d 'G' -f1)
+two3=$(cat $base_dir/AVL-tests/results/$CUR_CARD-IPERF12_2 | grep SUM | sed '$!d' | sed 's/^.*GBytes //' | cut -d 'G' -f1)
+two4=$(cat $base_dir/AVL-tests/results/$CUR_CARD-IPERF13_2 | grep SUM | sed '$!d' | sed 's/^.*GBytes //' | cut -d 'G' -f1)
 
 two_a=$(echo "($two1 + $two2 + $two3 + $two4)" | bc -l )
 
-echo "Speed ARM -> DUT2 : $one_a" > /local/mnt/workspace/AVL-tests/results/logs/$CUR_CARD-iperf_test_summary.txt
-echo "Speed DUT2 -> ARM : $two_a" >> /local/mnt/workspace/AVL-tests/results/logs/$CUR_CARD-iperf_test_summary.txt
+echo "Speed ARM -> DUT2 : $one_a" > $base_dir/AVL-tests/results/logs/$CUR_CARD-iperf_test_summary.txt
+echo "Speed DUT2 -> ARM : $two_a" >> $base_dir/AVL-tests/results/logs/$CUR_CARD-iperf_test_summary.txt
 
 #Limit for pass/fail is set to 40% line rate
 if [[ $CUR_CARD == "Beryllium" ]]; then
@@ -188,15 +198,15 @@ elif [[ $CUR_CARD == "Carbon" ]]; then
 fi
 
 
-if [ -z $(cat /local/mnt/workspace/AVL-tests/results/logs/results.txt | sed -n 1p) ]; then
-    echo "Netronome card,Ethool,ISA,PING,SSH,SCP,IPERF" > /local/mnt/workspace/AVL-tests/results/logs/results.txt
+if [ -z $(cat $base_dir/AVL-tests/results/logs/results.txt | sed -n 1p) ]; then
+    echo "Netronome card,Ethool,ISA,PING,SSH,SCP,IPERF" > $base_dir/AVL-tests/results/logs/results.txt
 fi
 
 if [[ "$CARD_NAME" != "None" ]]; then
-    sed -i "/$CARD_NAME/d" /local/mnt/workspace/AVL-tests/results/logs/results.txt
-    echo "$CARD_NAME,$ethtool,$isa,$ping,$ssh,$scp,$perf" >> /local/mnt/workspace/AVL-tests/results/logs/results.txt
+    sed -i "/$CARD_NAME/d" $base_dir/AVL-tests/results/logs/results.txt
+    echo "$CARD_NAME,$ethtool,$isa,$ping,$ssh,$scp,$perf" >> $base_dir/AVL-tests/results/logs/results.txt
 else
-    echo -e "None,${RED}Card not identified correctly${NC}" >> /local/mnt/workspace/AVL-tests/results/logs/results.txt
+    echo -e "None,${RED}Card not identified correctly${NC}" >> $base_dir/AVL-tests/results/logs/results.txt
 fi
 
 
