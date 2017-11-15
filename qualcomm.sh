@@ -171,10 +171,10 @@ else # else $TMUX is not empty, start test.
             tmux send-keys -t 2 "cd" C-m
             tmux send-keys -t 3 "cd" C-m
 
-
-            tmux send keys -t 2 "pwd" C-m
+            tmux send-keys -t 2 "clear" C-m
+            tmux send-keys -t 2 "pwd" C-m
             sleep 1
-            dut_base_dir="$(tmux capture-pane -t "2" -p | tail -n 2 | sed -n 1p)"
+            export dut_base_dir="$(tmux capture-pane -t "2" -p | head -n 2 | sed '$!d')"
 
             tmux send-keys -t 2 "rm -r AVL-tests" C-m
             tmux send-keys -t 3 "rm -r AVL-tests" C-m
@@ -195,6 +195,8 @@ else # else $TMUX is not empty, start test.
             tmux send-keys -t 3 "mkdir -p logs" C-m
 
             sleep 2
+
+            rm -rf .git
 
             scp -i ~/.ssh/netronome_key -r $script_dir/ root@$IP_ARM:$dut_base_dir/
             scp -i ~/.ssh/netronome_key -r $script_dir/ root@$IP_DUT2:$dut_base_dir/
